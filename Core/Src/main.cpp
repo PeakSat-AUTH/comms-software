@@ -10,6 +10,7 @@
 #include "UARTGatekeeperTask.hpp"
 #include "TemperatureSensorsTask.hpp"
 #include "TimeKeepingTask.hpp"
+#include "UARTTCTask.hpp"
 
 extern SPI_HandleTypeDef hspi1;
 extern UART_HandleTypeDef huart3;
@@ -47,6 +48,7 @@ extern "C" void main_cpp(){
     temperatureSensorsTask.emplace();
     timeKeepingTask.emplace();
 
+    UARTTCtask_create();
     uartGatekeeperTask->createTask();
     temperatureSensorsTask->createTask();
     mcuTemperatureTask->createTask();
