@@ -13,3 +13,6 @@
 [submodule "Core/lib/cross-platform-software"]
 	path = Core/lib/cross-platform-software
 	url = https://gitlab.com/acubesat/obc/cross-platform-software.git
+[submodule "Core/lib/cobs-c"]
+	path = Core/lib/cobs-c
+	url = git@github.com:cmcqueen/cobs-c.git
