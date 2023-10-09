@@ -12,6 +12,7 @@
 #include "TimeKeepingTask.hpp"
 #include "TCHandlingTask.hpp"
 #include "CAN.hpp"
+#include "WatchdogTask.hpp"
 #include "stm32h7xx_hal_fdcan.h"
 #include "CANGatekeeperTask.hpp"
 
@@ -53,6 +54,7 @@ extern "C" void main_cpp(){
 //    tcHandlingTask.emplace();
     canTestTask.emplace();
     canGatekeeperTask.emplace();
+    watchdogTask.emplace();
 
     uartGatekeeperTask->createTask();
     temperatureSensorsTask->createTask();
@@ -61,6 +63,7 @@ extern "C" void main_cpp(){
 //    tcHandlingTask->createTask();
     canTestTask->createTask();
     canGatekeeperTask->createTask();
+    watchdogTask->createTask();
     vTaskStartScheduler();
 
     /**
@@ -80,7 +83,7 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
             Error_Handler();
         }
 
-        CAN::rxFifo0.repair();
+//        CAN::rxFifo0.repair();
         CAN::Frame newFrame = CAN::getFrame(&CAN::rxFifo0, CAN::rxHeader0.Identifier);
         canGatekeeperTask->addToIncoming(newFrame);
 

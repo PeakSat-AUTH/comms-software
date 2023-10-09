@@ -125,7 +125,7 @@ namespace CAN {
      * a 32-bit ID to accomodate the shift.
      */
     inline uint32_t readId(uint32_t id) {
-        return id;
+        return id >> 18;
     }
 
     /**
