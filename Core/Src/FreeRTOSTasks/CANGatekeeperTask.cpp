@@ -22,8 +22,14 @@ void CANGatekeeperTask::execute() {
     while (true) {
         xQueueReceive(outgoingQueue, &out_message, portMAX_DELAY);
         CAN::send(out_message);
-        if(xQueueReceive(incomingQueue, &in_message, portMAX_DELAY) == pdTRUE){
-            CAN::TPProtocol::processSingleFrame(in_message);
+
+        if(uxQueueMessagesWaiting(incomingQueue) > 1){
+            CAN::TPProtocol::processMultipleFrames();
+        }else{
+            if(xQueueReceive(incomingQueue, &in_message, portMAX_DELAY) == pdTRUE){
+                CAN::TPProtocol::processSingleFrame(in_message);
+            }
         }
+
     }
 }
