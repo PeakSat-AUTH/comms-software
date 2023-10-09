@@ -7,9 +7,9 @@ extern FDCAN_HandleTypeDef hfdcan1;
 void CAN::configCANFilter() {
     FDCAN_FilterTypeDef sFilterConfig;
 
-    sFilterConfig.IdType = FDCAN_STANDARD_ID;          // Standard or extended id
+    sFilterConfig.IdType = FDCAN_EXTENDED_ID;      // Standard or extended id
     sFilterConfig.FilterIndex = 0;                          // In case of configuring multiple filters adapt accordingly
-    sFilterConfig.FilterType = FDCAN_FILTER_RANGE_NO_EIDM;         // Filter type
+    sFilterConfig.FilterType = FDCAN_FILTER_RANGE;         // Filter type
     sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;    // Where the messages that pass from the filter will go
     sFilterConfig.FilterID1 = 0x382;
     sFilterConfig.FilterID2 = 0x3FF;
