@@ -84,9 +84,15 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
                 /* Reception Error */
                 Error_Handler();
             }
+
             CAN::rxFifo0.repair();
             CAN::Frame newFrame = CAN::getFrame(&CAN::rxFifo0, CAN::rxHeader0.Identifier);
-            canGatekeeperTask->addToIncoming(newFrame);
+
+            if(CAN::rxFifo0[0] >> 6 == CAN::TPProtocol::Frame::Single){
+                canGatekeeperTask->addSFToIncoming(newFrame);
+            }else{
+                canGatekeeperTask->addMFToIncoming(newFrame);
+            }
         }
 
 

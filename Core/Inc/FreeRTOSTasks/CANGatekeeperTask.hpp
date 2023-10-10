@@ -41,19 +41,36 @@ private:
     /**
      * A freeRTOS queue to handle incoming frames part of a CAN-TP message, since they need to be parsed as a whole.
      */
-    QueueHandle_t incomingQueue;
+    QueueHandle_t incomingSFQueue;
 
     /**
      * The variable used to hold the queue's data structure.
      */
-    static inline StaticQueue_t incomingQueueBuffer;
+    static inline StaticQueue_t incomingSFQueueBuffer;
 
     /**
      * Storage area given to freeRTOS to manage the queue items.
      */
-    static inline uint8_t incomingQueueStorageArea[CAN::FrameQueueSize * sizeof(CAN::Frame)];
+    static inline uint8_t incomingSFQueueStorageArea[CAN::FrameQueueSize * sizeof(CAN::Frame)];
 
-    const static inline uint16_t TaskStackDepth = 1300;
+    /**
+     * A freeRTOS queue to handle incoming frames part of a CAN-TP message, since they need to be parsed as a whole.
+     */
+    QueueHandle_t incomingMFQueue;
+
+    /**
+     * The variable used to hold the queue's data structure.
+     */
+    static inline StaticQueue_t incomingMFQueueBuffer;
+
+    /**
+     * Storage area given to freeRTOS to manage the queue items.
+     */
+    static inline uint8_t incomingMFQueueStorageArea[CAN::FrameQueueSize * sizeof(CAN::Frame)];
+
+
+
+    const static inline uint16_t TaskStackDepth = 1800;
 
     StackType_t taskStack[TaskStackDepth];
 
@@ -107,10 +124,29 @@ public:
      *
      * @param message The incoming CAN::Frame.
      */
-    inline void addToIncoming(const CAN::Frame &message) {
+    inline void addSFToIncoming(const CAN::Frame &message) {
         BaseType_t taskShouldYield = pdFALSE;
 
-         xQueueSendToBackFromISR(incomingQueue, &message, &taskShouldYield);
+         xQueueSendToBackFromISR(incomingSFQueue, &message, &taskShouldYield);
+
+        if (taskShouldYield) {
+            taskYIELD();
+        }
+    }
+
+    /**
+     * Adds a CAN::Frame to the incomingQueue.
+     * If the queue is full the message is lost.
+     *
+     * @note This function is designed to be used from within the ISR of a CAN Message Receipt. Thus, it uses
+     * freeRTOS's ISR-Specific functions.
+     *
+     * @param message The incoming CAN::Frame.
+     */
+    inline void addMFToIncoming(const CAN::Frame &message) {
+        BaseType_t taskShouldYield = pdFALSE;
+
+        xQueueSendToBackFromISR(incomingMFQueue, &message, &taskShouldYield);
 
         if (taskShouldYield) {
             taskYIELD();
@@ -121,8 +157,16 @@ public:
      * An abstraction layer over the freeRTOS queue API to get the number of messages in the incoming queue.
      * @return The number of messages in the queue.
      */
-    inline uint8_t getIncomingMessagesCount() {
-        return uxQueueMessagesWaiting(incomingQueue);
+    inline uint8_t getIncomingSFMessagesCount() {
+        return uxQueueMessagesWaiting(incomingSFQueue);
+    }
+
+    /**
+     * An abstraction layer over the freeRTOS queue API to get the number of messages in the incoming queue.
+     * @return The number of messages in the queue.
+     */
+    inline uint8_t getIncomingMFMessagesCount() {
+        return uxQueueMessagesWaiting(incomingMFQueue);
     }
 
     /**
@@ -134,17 +178,30 @@ public:
      *
      * If the queue is empty, the returned message is empty.
      */
-    inline CAN::Frame getFromQueue() {
+    inline CAN::Frame getFromSFQueue() {
         CAN::Frame message;
-        xQueueReceive(incomingQueue, &message, 0);
+        xQueueReceive(incomingSFQueue, &message, 0);
         return message;
     }
 
     /**
      * Deletes all items present in the incoming queue.
      */
-    void emptyIncomingQueue() {
-        xQueueReset(incomingQueue);
+    void emptyIncomingSFQueue() {
+        xQueueReset(incomingSFQueue);
+    }
+
+    inline CAN::Frame getFromMFQueue() {
+        CAN::Frame message;
+        xQueueReceive(incomingMFQueue, &message, 0);
+        return message;
+    }
+
+    /**
+     * Deletes all items present in the incoming queue.
+     */
+    void emptyIncomingMFQueue() {
+        xQueueReset(incomingMFQueue);
     }
 
     void createTask() {

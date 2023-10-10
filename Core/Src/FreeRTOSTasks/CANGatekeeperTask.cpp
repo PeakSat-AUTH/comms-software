@@ -10,9 +10,13 @@ CANGatekeeperTask::CANGatekeeperTask() : Task("CANGatekeeperTask") {
                                        &outgoingQueueBuffer);
     vQueueAddToRegistry(outgoingQueue, "CAN Outgoing");
 
-    incomingQueue = xQueueCreateStatic(CAN::FrameQueueSize, sizeof(CAN::Frame), incomingQueueStorageArea,
-                                       &incomingQueueBuffer);
-    vQueueAddToRegistry(incomingQueue, "CAN Incoming");
+    incomingSFQueue = xQueueCreateStatic(CAN::FrameQueueSize, sizeof(CAN::Frame), incomingSFQueueStorageArea,
+                                       &incomingSFQueueBuffer);
+    vQueueAddToRegistry(incomingSFQueue, "CAN Incoming SF");
+
+    incomingMFQueue = xQueueCreateStatic(CAN::FrameQueueSize, sizeof(CAN::Frame), incomingSFQueueStorageArea,
+                                         &incomingMFQueueBuffer);
+    vQueueAddToRegistry(incomingSFQueue, "CAN Incoming MF");
 }
 
 void CANGatekeeperTask::execute() {
@@ -20,16 +24,17 @@ void CANGatekeeperTask::execute() {
     CAN::Frame in_message = {};
 
     while (true) {
-        xQueueReceive(outgoingQueue, &out_message, portMAX_DELAY);
-        CAN::send(out_message);
 
-        if(uxQueueMessagesWaiting(incomingQueue) > 1){
-            CAN::TPProtocol::processMultipleFrames();
-        }else{
-            if(xQueueReceive(incomingQueue, &in_message, portMAX_DELAY) == pdTRUE){
-                CAN::TPProtocol::processSingleFrame(in_message);
-            }
+        if(getIncomingSFMessagesCount()){
+            xQueueReceive(incomingSFQueue, &in_message, portMAX_DELAY);
+            CAN::TPProtocol::processSingleFrame(in_message);
         }
+        CAN::TPProtocol::processMultipleFrames();
 
+        if(uxQueueMessagesWaiting(outgoingQueue)){
+            xQueueReceive(outgoingQueue, &out_message, portMAX_DELAY);
+            CAN::send(out_message);
+        }
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
