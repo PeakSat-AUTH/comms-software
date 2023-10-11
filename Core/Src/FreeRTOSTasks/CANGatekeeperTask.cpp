@@ -19,11 +19,19 @@ CANGatekeeperTask::CANGatekeeperTask() : Task("CANGatekeeperTask") {
     vQueueAddToRegistry(incomingSFQueue, "CAN Incoming MF");
 }
 
+static uint32_t thread_notification;
+
 void CANGatekeeperTask::execute() {
     CAN::Frame out_message = {};
     CAN::Frame in_message = {};
 
+    taskHandle = xTaskGetCurrentTaskHandle();
+
+    uint32_t ulNotifiedValue;
+
     while (true) {
+
+        xTaskNotifyWait(0, 0, &ulNotifiedValue, portMAX_DELAY);
 
         if(getIncomingSFMessagesCount()){
             xQueueReceive(incomingSFQueue, &in_message, portMAX_DELAY);
@@ -35,6 +43,5 @@ void CANGatekeeperTask::execute() {
             xQueueReceive(outgoingQueue, &out_message, portMAX_DELAY);
             CAN::send(out_message);
         }
-        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }

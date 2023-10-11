@@ -1,5 +1,6 @@
 #include "CAN.hpp"
 #include "CAN/ApplicationLayer.hpp"
+#include "CANGatekeeperTask.hpp"
 
 void CANTestTask::execute() {
 
@@ -15,6 +16,7 @@ void CANTestTask::execute() {
     String<ECSSMaxMessageSize> testPayload("Hello World! 1");
     while (true) {
         CAN::Application::createLogMessage(CAN::NodeIDs::OBC, false, testPayload.data(), false);
+        xTaskNotify(canGatekeeperTask->taskHandle, 0, eNoAction);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 
