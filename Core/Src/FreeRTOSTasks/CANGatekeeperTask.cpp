@@ -41,7 +41,7 @@ void CANGatekeeperTask::execute() {
 
         if(uxQueueMessagesWaiting(outgoingQueue)){
             xQueueReceive(outgoingQueue, &out_message, portMAX_DELAY);
-            CAN::send(out_message);
+            CAN::send(out_message, ActiveBus);
         }
     }
 }

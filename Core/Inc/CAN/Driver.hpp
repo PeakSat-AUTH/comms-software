@@ -132,7 +132,7 @@ namespace CAN {
      * Immediately ends a CAN Message
      * @param message The message to be sent.
      */
-    void send(const CAN::Frame &message);
+    void send(const CAN::Frame &message, const CAN::ActiveBus activeBus);
 
     void configureTxHeader();
 

@@ -5,7 +5,6 @@
 void CANTestTask::execute() {
 
     CAN::CANBuffer_t message = {};
-
     /**
      * Simple 64 byte message sending
      */

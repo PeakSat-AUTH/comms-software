@@ -1,0 +1,158 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  "ASM"
+  )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_ASM
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Startup/startup_stm32h7a3zitxq.s" "C:/Users/tats/Documents/GitHub/comms-software/cmake-build-debug-mingw/CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Startup/startup_stm32h7a3zitxq.s.obj"
+  )
+set(CMAKE_ASM_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_ASM
+  "ARM_MATH_CM4"
+  "ARM_MATH_MATRIX_CHECK"
+  "ARM_MATH_ROUNDING"
+  "DEBUG"
+  "LOGLEVEL_TRACE"
+  "STM32"
+  "STM32H7A3xxQ"
+  "USE_HAL_DRIVER"
+  )
+
+# The include file search paths:
+set(CMAKE_ASM_TARGET_INCLUDE_PATH
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/CMSIS/Device/ST/STM32H7xx/Include"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/CMSIS/Include"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Inc/FreeRTOSTasks"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/src/FreeRTOSTasks"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Inc/Platform/Parameters"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/include"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/portable/MemMang"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/Src"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ecss-services/inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ecss-services/inc/Platform/x86"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ecss-services/lib/etl/include"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ecss-services/lib/logger/inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/lib/etl/include"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/lib/Catch2"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/component-drivers/AT86RF215/inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/component-drivers/TMP117/inc"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/cobs-c"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/CMSIS/DSP/Include"
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/main.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/main.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/main.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/stm32h7xx_hal_msp.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/stm32h7xx_hal_msp.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/stm32h7xx_hal_msp.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/stm32h7xx_hal_timebase_tim.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/stm32h7xx_hal_timebase_tim.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/stm32h7xx_hal_timebase_tim.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/stm32h7xx_it.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/stm32h7xx_it.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/stm32h7xx_it.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/syscalls.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/syscalls.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/syscalls.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/sysmem.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/sysmem.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/sysmem.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/system_stm32h7xx.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/system_stm32h7xx.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/system_stm32h7xx.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/croutine.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/croutine.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/croutine.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/event_groups.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/event_groups.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/event_groups.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/list.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/list.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/list.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/portable/MemMang/heap_4.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/portable/MemMang/heap_4.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/portable/MemMang/heap_4.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/queue.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/queue.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/queue.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/stream_buffer.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/stream_buffer.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/stream_buffer.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/tasks.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/tasks.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/tasks.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/FreeRTOS/Source/timers.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/timers.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/FreeRTOS/Source/timers.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/cobs-c/cobs.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/cobs-c/cobs.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/cobs-c/cobs.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_iwdg.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_iwdg.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_iwdg.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rtc_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/CAN/ApplicationLayer.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/CAN/ApplicationLayer.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/CAN/ApplicationLayer.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/CAN/Driver.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/CAN/Driver.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/CAN/Driver.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/CAN/TPProtocol.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/CAN/TPProtocol.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/CAN/TPProtocol.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/AmbientTemperatureTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/AmbientTemperatureTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/AmbientTemperatureTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/CAN.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/CAN.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/CAN.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/CANGatekeeperTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/CANGatekeeperTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/CANGatekeeperTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/DummyTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/DummyTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/DummyTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/MCUTemperatureTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/MCUTemperatureTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/MCUTemperatureTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/TCHandlingTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/TCHandlingTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/TCHandlingTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/TemperatureSensorsTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/TemperatureSensorsTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/TemperatureSensorsTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/TimeKeepingTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/TimeKeepingTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/TimeKeepingTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/UARTGatekeeperTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/UARTGatekeeperTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/UARTGatekeeperTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/WatchdogTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/WatchdogTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/WatchdogTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/FreeRTOSTasks/txUHFTask.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/txUHFTask.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/FreeRTOSTasks/txUHFTask.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/ErrorHandler.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/ErrorHandler.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/ErrorHandler.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Logger.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Logger.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Logger.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Parameters/BootCounter.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Parameters/BootCounter.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Parameters/BootCounter.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Service.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Service.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Service.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Services/HousekeepingService.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/HousekeepingService.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/HousekeepingService.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Services/ParameterService.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/ParameterService.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/ParameterService.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Services/ParameterStatisticsService.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/ParameterStatisticsService.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/ParameterStatisticsService.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/Services/TimeBasedSchedulingService.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/TimeBasedSchedulingService.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/Services/TimeBasedSchedulingService.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/TaskInitialization.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/TaskInitialization.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/TaskInitialization.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/Platform/TimeGetter.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/TimeGetter.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/Platform/TimeGetter.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/Src/main.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/main.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/Src/main.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/CCSDSChannel.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/CCSDSChannel.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/CCSDSChannel.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/CCSDSServiceChannel.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/CCSDSServiceChannel.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/CCSDSServiceChannel.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/CLCW.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/CLCW.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/CLCW.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/FrameAcceptanceReporting.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/FrameAcceptanceReporting.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/FrameAcceptanceReporting.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/FrameOperationProcedure.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/FrameOperationProcedure.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/FrameOperationProcedure.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/MemoryPool.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/MemoryPool.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/MemoryPool.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/Packet.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/Packet.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/Packet.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/TransferFrameTC.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/TransferFrameTC.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/TransferFrameTC.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/ccsds-telemetry-packets/src/logOperators.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/logOperators.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/ccsds-telemetry-packets/src/logOperators.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/component-drivers/AT86RF215/src/at86rf215.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/component-drivers/AT86RF215/src/at86rf215.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/component-drivers/AT86RF215/src/at86rf215.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/component-drivers/TMP117/src/TMP117.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/component-drivers/TMP117/src/TMP117.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/component-drivers/TMP117/src/TMP117.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/BCHDecoder.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/BCHDecoder.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/BCHDecoder.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/ConvolutionalEncoder.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/ConvolutionalEncoder.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/ConvolutionalEncoder.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/FMTranscoder.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/FMTranscoder.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/FMTranscoder.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/GMSKTranscoder.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/GMSKTranscoder.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/GMSKTranscoder.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/LDPCEncoder.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/LDPCEncoder.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/LDPCEncoder.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/OQPSKTranscoder.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/OQPSKTranscoder.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/OQPSKTranscoder.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/Platform/x86/fft.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/Platform/x86/fft.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/Platform/x86/fft.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/Synchronizer.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/Synchronizer.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/Synchronizer.cpp.obj.d"
+  "C:/Users/tats/Documents/GitHub/comms-software/Core/lib/physical_layer/src/filter.cpp" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/filter.cpp.obj" "gcc" "CMakeFiles/STM32H7A3ZIQSetup.elf.dir/Core/lib/physical_layer/src/filter.cpp.obj.d"
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

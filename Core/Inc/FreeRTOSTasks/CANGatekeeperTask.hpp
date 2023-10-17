@@ -74,6 +74,8 @@ private:
 
     StackType_t taskStack[TaskStackDepth];
 
+    CAN::ActiveBus ActiveBus = CAN::ActiveBus::Redundant;
+
 public:
     void execute();
 
@@ -183,6 +185,11 @@ public:
         xQueueReceive(incomingSFQueue, &message, 0);
         return message;
     }
+
+    inline void switchActiveBus(CAN::ActiveBus activeBus){
+        this->ActiveBus = activeBus;
+    }
+
 
     /**
      * Deletes all items present in the incoming queue.
