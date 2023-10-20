@@ -64,9 +64,6 @@ include_directories(Core/lib/ecss-services/inc)
 include_directories(Core/lib/ecss-services/inc/Platform/x86)
 include_directories(Core/lib/ecss-services/lib/etl/include)
 include_directories(Core/lib/ecss-services/lib/logger/inc)
-include_directories(Core/lib/physical_layer/inc)
-include_directories(Core/lib/physical_layer/lib/etl/include)
-include_directories(Core/lib/physical_layer/lib/Catch2)
 include_directories(Core/lib/ccsds-telemetry-packets/inc)
 include_directories(Core/lib/component-drivers/AT86RF215/inc)
 include_directories(Core/lib/component-drivers/TMP117/inc)
@@ -83,9 +80,6 @@ file(GLOB_RECURSE SOURCES "Core/Startup/*.s" "Core/Src/*.cpp" "Core/Src/*.c" "Dr
 
 file(GLOB_RECURSE SOURCES "Core/Startup/*.s" "Core/Src/*.cpp" "Core/Src/*.c" "Common/*.*" "Drivers/STM32H7xx_HAL_Driver/Src/*.c" "Core/lib/FreeRTOS/Source/*.c" "Core/lib/cobs-c/cobs.c")
 
-file(GLOB_RECURSE PHYSICAL_LAYER "Core/lib/physical_layer/src/*.cpp")
-list(FILTER PHYSICAL_LAYER EXCLUDE REGEX "Core/lib/physical_layer/src/main.cpp")
-
 file(GLOB_RECURSE DATA_LAYER "Core/lib/ccsds-telemetry-packets/src/*.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/main.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Logger.cpp")
@@ -98,7 +92,7 @@ add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR
 add_link_options(-mcpu=cortex-m7 -mthumb -mthumb-interwork)
 add_link_options(-T ${LINKER_SCRIPT})
 
-add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT} ${PHYSICAL_LAYER} ${DATA_LAYER} ${DRIVERS})
+add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT} ${DATA_LAYER} ${DRIVERS})
 add_subdirectory(Core/lib/ecss-services EXCLUDE_FROM_ALL)
 target_link_libraries(${PROJECT_NAME}.elf PRIVATE common)
 add_compile_definitions(STM32 LOGLEVEL_TRACE)

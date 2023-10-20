@@ -12,8 +12,5 @@
     <mapping directory="$PROJECT_DIR$/Core/lib/ecss-services/lib/Catch2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/ecss-services/lib/etl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/ecss-services/lib/logger" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Core/lib/physical_layer" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Core/lib/physical_layer/lib/Catch2" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Core/lib/physical_layer/lib/etl" vcs="Git" />
   </component>
 </project>
