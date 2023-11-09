@@ -45,6 +45,7 @@ inline const uint8_t CANMessageSize = 64;
 
 inline const uint32_t CANIdentifier = CAN::NodeIDs::COMMS;
 
+inline const uint8_t GNSSQueueSize = 64;
 
-
+inline const uint8_t MaxGNSSMessageSize = 128;
 #endif //STM32H7A3ZIQSETUP_COMMS_DEFINITIONS_H

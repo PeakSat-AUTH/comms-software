@@ -17,6 +17,7 @@
 #include "StatisticsReportingTask.hpp"
 #include "HouseKeepingTask.hpp"
 #include "TimeBasedSchedulingTask.hpp"
+#include "GNSSGatekeeperTask.hpp"
 
 extern "C" void main_cpp(){
     uartGatekeeperTask.emplace();
@@ -30,6 +31,7 @@ extern "C" void main_cpp(){
     statisticsReportingTask.emplace();
     housekeepingTask.emplace();
     timeBasedSchedulingTask.emplace();
+    gnssGatekeeperTask.emplace();
 
     uartGatekeeperTask->createTask();
     temperatureSensorsTask->createTask();
@@ -42,6 +44,7 @@ extern "C" void main_cpp(){
     statisticsReportingTask->createTask();
     housekeepingTask->createTask();
     timeBasedSchedulingTask->createTask();
+    gnssGatekeeperTask->createTask();
 
     vTaskStartScheduler();
 

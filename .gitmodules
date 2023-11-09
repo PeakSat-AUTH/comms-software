@@ -10,3 +10,6 @@
 [submodule "Core/lib/cobs-c"]
 	path = Core/lib/cobs-c
 	url = git@github.com:cmcqueen/cobs-c.git
+[submodule "Core/lib/minmea"]
+	path = Core/lib/minmea
+	url = git@github.com:kosma/minmea.git
