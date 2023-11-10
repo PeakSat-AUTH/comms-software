@@ -15,7 +15,7 @@
 #include "CANGatekeeperTask.hpp"
 #include "WatchdogTask.hpp"
 #include "StatisticsReportingTask.hpp"
-#include "HouseKeepingTask.hpp"
+#include "HousekeepingTask.hpp"
 #include "TimeBasedSchedulingTask.hpp"
 
 extern "C" void main_cpp(){

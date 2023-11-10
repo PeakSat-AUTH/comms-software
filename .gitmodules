@@ -1,12 +1,12 @@
 [submodule "Core/lib/ccsds-telemetry-packets"]
 	path = Core/lib/ccsds-telemetry-packets
 	url = https://gitlab.com/acubesat/comms/software/ccsds-telemetry-packets.git
-[submodule "Core/lib/ecss-services"]
-	path = Core/lib/ecss-services
-	url = https://gitlab.com/acubesat/obc/ecss-servicaes.git
-[submodule "Core/lib/component-drivers"]
-	path = Core/lib/component-drivers
-	url = https://gitlab.com/acubesat/comms/software/component-drivers.git
 [submodule "Core/lib/cobs-c"]
 	path = Core/lib/cobs-c
 	url = git@github.com:cmcqueen/cobs-c.git
+[submodule "Core/lib/ecss-services"]
+	path = Core/lib/ecss-services
+	url = git@github.com:PeakSat-AUTH/ecss-services.git
+[submodule "Core/lib/comms-component-drivers"]
+	path = Core/lib/comms-component-drivers
+	url = git@github.com:PeakSat-AUTH/comms-component-drivers.git
