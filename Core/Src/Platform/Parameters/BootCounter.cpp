@@ -1,4 +1,4 @@
-#include "BootCounter.hpp"
+#include "../../../../../../../../nucleo-h743-software/Core/Inc/Platform/Parameters/BootCounter.hpp"
 #ifndef STM32
 namespace BootCounter {
     void clearRegisters() {

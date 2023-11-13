@@ -8,15 +8,15 @@ void MCUTemperatureTask::execute() {
 
     while (true) {
         #ifdef STM32
-        HAL_ADC_Start(&hadc2);
-        HAL_ADC_PollForConversion(&hadc2, timeoutPollForConversion);
-        uint16_t adcValue = HAL_ADC_GetValue(&hadc2);
+        HAL_ADC_Start(&hadc3);
+        HAL_ADC_PollForConversion(&hadc3, timeoutPollForConversion);
+        uint16_t adcValue = HAL_ADC_GetValue(&hadc3);
         float avgSlope = (tsCal2Temp - tsCal1Temp) / (tsCal2 - tsCal1);
         float temperature = avgSlope * (static_cast<float>(adcValue) - tsCal1) + tsCal1Temp;
         Logger::format.precision(formatPrecision);
         LOG_DEBUG << "MCU Internal Temperature is " << temperature;
         vTaskDelay(pdMS_TO_TICKS(delayMs));
-        HAL_ADC_Stop(&hadc2);
+        HAL_ADC_Stop(&hadc3);
         #else
         AFEC0_ConversionStart();
         vTaskDelay(pdMS_TO_TICKS(1));

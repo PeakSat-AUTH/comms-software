@@ -25,7 +25,7 @@ extern "C" void main_cpp(){
     timeKeepingTask.emplace();
     tcHandlingTask.emplace();
     watchdogTask.emplace();
-    canTestTask.emplace();
+//    canTestTask.emplace();
     canGatekeeperTask.emplace();
     statisticsReportingTask.emplace();
     housekeepingTask.emplace();
@@ -37,7 +37,7 @@ extern "C" void main_cpp(){
     timeKeepingTask->createTask();
     tcHandlingTask->createTask();
     watchdogTask->createTask();
-    canTestTask->createTask();
+//    canTestTask->createTask();
     canGatekeeperTask->createTask();
     statisticsReportingTask->createTask();
     housekeepingTask->createTask();

@@ -1,5 +1,5 @@
 #include "ECSS_Configuration.hpp"
-#include "Platform//Parameters/PeakSatParameters.hpp"
+#include "../../../../../../../../nucleo-h743-software/Core/Inc/Platform/Parameters/PeakSatParameters.hpp"
 #include "Services/ParameterService.hpp"
 
 #ifdef SERVICE_PARAMETER

@@ -3,7 +3,7 @@
 #define STM32H7A3ZIQSETUP_COMMS_DEFINITIONS_H
 #include <cstdint>
 #include "Logger_Definitions.hpp"
-#include "Parameters.hpp"
+#include "Platform/Parameters/Parameters.hpp"
 #include "Definitions.hpp"
 /**
  * Maximum size for a string representation of a service or message type identifier
