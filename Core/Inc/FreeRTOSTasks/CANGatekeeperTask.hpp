@@ -74,7 +74,7 @@ private:
 
     StackType_t taskStack[TaskStackDepth];
 
-    CAN::ActiveBus ActiveBus = CAN::ActiveBus::Redundant;
+    CAN::ActiveBus ActiveBus = CAN::ActiveBus::Main;
 
 public:
     void execute();
