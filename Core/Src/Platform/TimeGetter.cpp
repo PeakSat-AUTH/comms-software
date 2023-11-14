@@ -1,7 +1,6 @@
 #include "Helpers/TimeGetter.hpp"
-#include "../../../../../../../nucleo-h743-software/Core/Inc/Platform/Parameters/CommonParameters.hpp"
-#include "../../../../../../../nucleo-h743-software/Core/Inc/Platform/Parameters/Parameters.hpp"
-
+#include "CommonParameters.hpp"
+#include "Parameters.hpp"
 UTCTimestamp TimeGetter::getCurrentTimeUTC() {
     return getCurrentTimeDefaultCUC().toUTCtimestamp();
 }
