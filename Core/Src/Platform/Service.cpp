@@ -20,7 +20,7 @@ void Service::storeMessage(Message &message) {
     output.append(serviceType);
     output.append(",");
     output.append(messageType);
-    output.append("] message! ");
+    output.append("] message? ");
 
     auto data = String<CCSDSMaxMessageSize>("");
     String<CCSDSMaxMessageSize> createdPacket = MessageParser::compose(message);

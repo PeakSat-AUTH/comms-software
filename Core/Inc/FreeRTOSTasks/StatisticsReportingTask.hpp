@@ -9,7 +9,7 @@ public:
      */
     void execute();
 
-    const static inline uint16_t TaskStackDepth = 1200;
+    const static inline uint16_t TaskStackDepth = 2000;
 
     StackType_t taskStack[TaskStackDepth];
 

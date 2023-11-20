@@ -15,7 +15,7 @@
 #include "CANGatekeeperTask.hpp"
 #include "WatchdogTask.hpp"
 #include "StatisticsReportingTask.hpp"
-#include "HouseKeepingTask.hpp"
+#include "HousekeepingTask.hpp"
 #include "TimeBasedSchedulingTask.hpp"
 
 extern "C" void main_cpp(){
@@ -25,9 +25,9 @@ extern "C" void main_cpp(){
     timeKeepingTask.emplace();
     tcHandlingTask.emplace();
     watchdogTask.emplace();
-    canTestTask.emplace();
+//    canTestTask.emplace();
     canGatekeeperTask.emplace();
-    statisticsReportingTask.emplace();
+//    statisticsReportingTask.emplace();
     housekeepingTask.emplace();
     timeBasedSchedulingTask.emplace();
 
@@ -37,9 +37,9 @@ extern "C" void main_cpp(){
     timeKeepingTask->createTask();
     tcHandlingTask->createTask();
     watchdogTask->createTask();
-    canTestTask->createTask();
+//    canTestTask->createTask();
     canGatekeeperTask->createTask();
-    statisticsReportingTask->createTask();
+//    statisticsReportingTask->createTask();
     housekeepingTask->createTask();
     timeBasedSchedulingTask->createTask();
 
