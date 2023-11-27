@@ -137,9 +137,9 @@ namespace PeakSatParameters {
      * measure a specific range. Hence, to cut 2 bytes, the parameter variables are now uint16_t. The max value of the
      * variable (2^16) now represents the upper value of the measurement range, and 0 the lower value of the range.
      */
-    inline Parameter<uint16_t> commsPCBTemperature1(0);
-    inline Parameter<uint16_t> commsPCBTemperature2(0);
-    inline Parameter<uint16_t> commsMCUTemperature(0);
+    inline Parameter<float> commsPCBTemperature1(0);
+    inline Parameter<float> commsPCBTemperature2(0);
+    inline Parameter<float> commsMCUTemperature(0);
     inline Parameter<uint16_t> commsMCUInputVoltage(0);
 
     inline Parameter<uint32_t> commsMCUBootCounter(0);

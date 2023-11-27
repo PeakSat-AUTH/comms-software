@@ -10,7 +10,7 @@ namespace HousekeepingStructures {
     static etl::array<HousekeepingStructure, ECSSMaxHousekeepingStructures> structures = {
             {
                     // COMMS Parameters that will be monitored in the campaign
-                    {5, 1000, true,
+                    {6, 1000, true,
                      {COMMSPCBTemperature1,
                       COMMSPCBTemperature2,
                       COMMSMCUTemperature,
