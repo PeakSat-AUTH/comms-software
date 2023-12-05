@@ -1,7 +1,7 @@
 #THIS FILE IS AUTO GENERATED FROM THE TEMPLATE! DO NOT CHANGE!
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.27)
 
 # specify cross-compilers and tools
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -14,7 +14,7 @@ set(SIZE arm-none-eabi-size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # project settings
-project(STM32H7A3ZIQSetup C CXX ASM)
+project(STM32H743I2 C CXX ASM)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
@@ -65,12 +65,12 @@ include_directories(Core/lib/ecss-services/inc/Platform/x86)
 include_directories(Core/lib/ecss-services/lib/etl/include)
 include_directories(Core/lib/ecss-services/lib/logger/inc)
 include_directories(Core/lib/ccsds-telemetry-packets/inc)
-include_directories(Core/lib/component-drivers/AT86RF215/inc)
-include_directories(Core/lib/component-drivers/TMP117/inc)
+include_directories(Core/lib/comms-component-drivers/AT86RF215/inc)
+include_directories(Core/lib/comms-component-drivers/TMP117/inc)
 include_directories(Core/lib/cobs-c)
 include_directories(Drivers/CMSIS/DSP/Include)
 
-add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H7A3xxQ)
+add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32H743xx)
 find_library(CMSIS_DSP arm_cortexM7lfdp_math Drivers/CMSIS/Lib/GCC)
 
 # TODO (maybe): Find a way to use this symbol insted of our own
@@ -84,9 +84,9 @@ file(GLOB_RECURSE DATA_LAYER "Core/lib/ccsds-telemetry-packets/src/*.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/main.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Logger.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Platform/x86/Logger.cpp")
-file(GLOB_RECURSE DRIVERS "Core/lib/component-drivers/AT86RF215/src/*cpp" "Core/lib/component-drivers/TMP117/src/*cpp")
+file(GLOB_RECURSE DRIVERS "Core/lib/comms-component-drivers/AT86RF215/src/*cpp" "Core/lib/comms-component-drivers/TMP117/src/*cpp")
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H7A3ZITXQ_FLASH.ld)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H743ZITX_FLASH.ld)
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m7 -mthumb -mthumb-interwork)

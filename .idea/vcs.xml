@@ -6,7 +6,7 @@
     <mapping directory="$PROJECT_DIR$/Core/lib/ccsds-telemetry-packets/lib/Catch2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/ccsds-telemetry-packets/lib/etl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/cobs-c" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Core/lib/component-drivers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Core/lib/comms-component-drivers" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/ecss-services" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/ecss-services/ci/page_style/doxygen_dark_theme" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Core/lib/ecss-services/lib/Catch2" vcs="Git" />

@@ -58,16 +58,6 @@ void main_cpp();
 /* Private defines -----------------------------------------------------------*/
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
-#define OSC32_IN_Pin GPIO_PIN_14
-#define OSC32_IN_GPIO_Port GPIOC
-#define OSC32_OUT_Pin GPIO_PIN_15
-#define OSC32_OUT_GPIO_Port GPIOC
-#define USB_FS_PWR_EN_Pin GPIO_PIN_10
-#define USB_FS_PWR_EN_GPIO_Port GPIOF
-#define PH0_MCU_Pin GPIO_PIN_0
-#define PH0_MCU_GPIO_Port GPIOH
-#define PH1_MCU_Pin GPIO_PIN_1
-#define PH1_MCU_GPIO_Port GPIOH
 #define SPI_NSS_Pin GPIO_PIN_4
 #define SPI_NSS_GPIO_Port GPIOA
 #define LD1_Pin GPIO_PIN_0
@@ -78,16 +68,10 @@ void main_cpp();
 #define STLINK_RX_GPIO_Port GPIOD
 #define STLINK_TX_Pin GPIO_PIN_9
 #define STLINK_TX_GPIO_Port GPIOD
-#define USB_FS_OVCR_Pin GPIO_PIN_7
-#define USB_FS_OVCR_GPIO_Port GPIOG
-#define USB_FS_VBUS_Pin GPIO_PIN_9
-#define USB_FS_VBUS_GPIO_Port GPIOA
-#define USB_FS_ID_Pin GPIO_PIN_10
-#define USB_FS_ID_GPIO_Port GPIOA
-#define USB_FS_N_Pin GPIO_PIN_11
-#define USB_FS_N_GPIO_Port GPIOA
-#define USB_FS_P_Pin GPIO_PIN_12
-#define USB_FS_P_GPIO_Port GPIOA
+#define USB_OTG_FS_PWR_EN_Pin GPIO_PIN_10
+#define USB_OTG_FS_PWR_EN_GPIO_Port GPIOD
+#define USB_OTG_FS_OVCR_Pin GPIO_PIN_7
+#define USB_OTG_FS_OVCR_GPIO_Port GPIOG
 #define LD2_Pin GPIO_PIN_1
 #define LD2_GPIO_Port GPIOE
 

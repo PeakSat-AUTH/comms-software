@@ -2,7 +2,7 @@
 #include "Task.hpp"
 
 #ifdef STM32
-extern ADC_HandleTypeDef hadc2;
+extern ADC_HandleTypeDef hadc3;
 #endif
 
 
