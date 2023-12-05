@@ -1,12 +1,12 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    stm32h7xx_hal_timebase_TIM.c
+  * @file    stm32h7xx_hal_timebase_tim.c
   * @brief   HAL time base based on the hardware TIM.
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
