@@ -84,7 +84,7 @@ file(GLOB_RECURSE DATA_LAYER "Core/lib/ccsds-telemetry-packets/src/*.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/main.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Logger.cpp")
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Platform/x86/Logger.cpp")
-file(GLOB_RECURSE DRIVERS "Core/lib/comms-component-drivers/AT86RF215/src/*.cpp" "Core/lib/comms-component-drivers/TMP117/src/*.cpp")
+file(GLOB_RECURSE DRIVERS "Core/lib/comms-component-drivers/AT86RF215/src/*cpp" "Core/lib/comms-component-drivers/TMP117/src/*cpp")
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H743ZITX_FLASH.ld)
 
