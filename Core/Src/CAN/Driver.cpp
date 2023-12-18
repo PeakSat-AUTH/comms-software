@@ -116,11 +116,11 @@ void CAN::send(const CAN::Frame &message, CAN::ActiveBus outgoingBus) {
 
     if(outgoingBus == Main){
         if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &CAN::txHeader, txFifo.data()) != HAL_OK) {
-            Error_Handler();
+            LOG_ERROR << "CAN Queue Full!";
         }
-    }else{
+    } else {
         if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan2, &CAN::txHeader, txFifo.data()) != HAL_OK) {
-            Error_Handler();
+            LOG_ERROR << "CAN Queue Full!";
         }
     }
 
