@@ -17,31 +17,35 @@
 #include "StatisticsReportingTask.hpp"
 #include "HousekeepingTask.hpp"
 #include "TimeBasedSchedulingTask.hpp"
+#include "TransceiverTask.hpp"
 
 extern "C" void main_cpp(){
     uartGatekeeperTask.emplace();
-    mcuTemperatureTask.emplace();
-    temperatureSensorsTask.emplace();
-    timeKeepingTask.emplace();
-    tcHandlingTask.emplace();
+    //mcuTemperatureTask.emplace();
+    //temperatureSensorsTask.emplace();
+    //timeKeepingTask.emplace();
+    //tcHandlingTask.emplace();
     watchdogTask.emplace();
-    canTestTask.emplace();
-    canGatekeeperTask.emplace();
-    statisticsReportingTask.emplace();
-    housekeepingTask.emplace();
-    timeBasedSchedulingTask.emplace();
+    //canTestTask.emplace();
+    //canGatekeeperTask.emplace();
+    //statisticsReportingTask.emplace();
+    //housekeepingTask.emplace();
+    //timeBasedSchedulingTask.emplace();
+    transceiverTask.emplace();
+
 
     uartGatekeeperTask->createTask();
-    temperatureSensorsTask->createTask();
-    mcuTemperatureTask->createTask();
-    timeKeepingTask->createTask();
-    tcHandlingTask->createTask();
+    //temperatureSensorsTask->createTask();
+    //mcuTemperatureTask->createTask();
+    //timeKeepingTask->createTask();
+    //tcHandlingTask->createTask();
     watchdogTask->createTask();
-    canTestTask->createTask();
-    canGatekeeperTask->createTask();
-    statisticsReportingTask->createTask();
-    housekeepingTask->createTask();
-    timeBasedSchedulingTask->createTask();
+    //canTestTask->createTask();
+    //canGatekeeperTask->createTask();
+    //statisticsReportingTask->createTask();
+    //housekeepingTask->createTask();
+    //timeBasedSchedulingTask->createTask();
+    transceiverTask->createTask();
 
     vTaskStartScheduler();
 
@@ -101,3 +105,18 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
         }
     }
 }
+
+/**
+ * @brief This function handles EXTI line[15:10] interrupts.
+ */
+
+extern "C" void EXTI15_10_IRQHandler(void) {
+    HAL_GPIO_EXTI_IRQHandler(TransceiverIT_Pin);
+    TransceiverTask::transceiver.handle_irq();
+}
+
+
+
+
+
+

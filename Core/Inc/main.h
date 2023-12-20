@@ -56,6 +56,8 @@ void main_cpp();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define NSS_RF_Pin GPIO_PIN_4
+#define NSS_RF_GPIO_Port GPIOE
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
 #define USER_Btn_EXTI_IRQn EXTI15_10_IRQn
@@ -67,8 +69,6 @@ void main_cpp();
 #define RMII_REF_CLK_GPIO_Port GPIOA
 #define RMII_MDIO_Pin GPIO_PIN_2
 #define RMII_MDIO_GPIO_Port GPIOA
-#define SPI_NSS_Pin GPIO_PIN_4
-#define SPI_NSS_GPIO_Port GPIOA
 #define RMII_CRS_DV_Pin GPIO_PIN_7
 #define RMII_CRS_DV_GPIO_Port GPIOA
 #define RMII_RXD0_Pin GPIO_PIN_4
@@ -83,6 +83,9 @@ void main_cpp();
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
+#define TransceiverIT_Pin GPIO_PIN_15
+#define TransceiverIT_GPIO_Port GPIOD
+#define TransceiverIT_EXTI_IRQn EXTI15_10_IRQn
 #define USB_PowerSwitchOn_Pin GPIO_PIN_6
 #define USB_PowerSwitchOn_GPIO_Port GPIOG
 #define USB_OverCurrent_Pin GPIO_PIN_7
