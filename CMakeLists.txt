@@ -86,7 +86,9 @@ list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Logge
 list(FILTER DATA_LAYER EXCLUDE REGEX "Core/lib/ccsds-telemetry-packets/src/Platform/x86/Logger.cpp")
 file(GLOB_RECURSE DRIVERS "Core/lib/comms-component-drivers/AT86RF215/src/*cpp" "Core/lib/comms-component-drivers/TMP117/src/*cpp")
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H743ZITX_FLASH.ld)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H743ZITX_FLASH.ld
+        Core/Inc/GNSS.hpp
+        Core/Src/GNSS.cpp)
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m7 -mthumb -mthumb-interwork)
