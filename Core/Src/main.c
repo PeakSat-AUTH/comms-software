@@ -53,6 +53,8 @@ IWDG_HandleTypeDef hiwdg1;
 
 RTC_HandleTypeDef hrtc;
 
+MMC_HandleTypeDef hmmc1;
+
 SPI_HandleTypeDef hspi4;
 
 UART_HandleTypeDef huart3;
@@ -78,6 +80,7 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_RTC_Init(void);
 static void MX_SPI4_Init(void);
+static void MX_SDMMC1_MMC_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 void vTask1(void * pvParameters);
@@ -130,6 +133,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_RTC_Init();
   MX_SPI4_Init();
+  MX_SDMMC1_MMC_Init();
 
   /* Initialize interrupts */
   MX_NVIC_Init();
@@ -550,6 +554,37 @@ static void MX_RTC_Init(void)
   /* USER CODE BEGIN RTC_Init 2 */
 
   /* USER CODE END RTC_Init 2 */
+
+}
+
+/**
+  * @brief SDMMC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SDMMC1_MMC_Init(void)
+{
+
+  /* USER CODE BEGIN SDMMC1_Init 0 */
+
+  /* USER CODE END SDMMC1_Init 0 */
+
+  /* USER CODE BEGIN SDMMC1_Init 1 */
+
+  /* USER CODE END SDMMC1_Init 1 */
+  hmmc1.Instance = SDMMC1;
+  hmmc1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+  hmmc1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+  hmmc1.Init.BusWide = SDMMC_BUS_WIDE_4B;
+  hmmc1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  hmmc1.Init.ClockDiv = 0;
+  if (HAL_MMC_Init(&hmmc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SDMMC1_Init 2 */
+
+  /* USER CODE END SDMMC1_Init 2 */
 
 }
 
