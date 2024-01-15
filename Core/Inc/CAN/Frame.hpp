@@ -8,7 +8,7 @@ namespace CAN {
      * CAN::Frames composing a CAN::TPMessage, a Single Frame TP Message, or a non-TP Message.
      *
      * It consists of an ID which specifies the message's function, as in DDJF_OBDH + an etl::array that contains the
-     * message payload. A CAN::Frame is merely a carrier of information and has no functionality.
+     * message messageBody. A CAN::Frame is merely a carrier of information and has no functionality.
      */
     class Frame {
     public:
@@ -26,7 +26,7 @@ namespace CAN {
         uint32_t id = 0;
 
         /**
-         * A array containing the message payload.
+         * A array containing the message messageBody.
          *
          * @note Users should use data.push_back() instead of data[i] while adding items to avoid errors caused by
          * copying the array to the gatekeeper queue.
