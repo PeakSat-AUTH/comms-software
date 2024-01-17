@@ -82,7 +82,7 @@ void  TransceiverTask::directModConfig(bool enable){
 
 void TransceiverTask::modulationConfig(){
     Error err;
-    // BT = 1 , MIDXS = 1, MIDX = 1, MOR = BFSK
+    // BT = 1 , MIDXS = 1, MIDX = 1, MOR = B-FSK
     transceiver.spi_write_8(BBC0_FSKC0, 86, err);
     directModConfig(true);
 }
