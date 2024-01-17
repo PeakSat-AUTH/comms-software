@@ -75,21 +75,15 @@ uint8_t TransceiverTask::calculatePllChannelNumber09(uint32_t frequency) {
 void  TransceiverTask::directModConfig(bool enable){
     Error err;
     transceiver.set_direct_modulation(RF09, enable, err);
-    // clears the bit we want to write
     uint8_t temp = (transceiver.spi_read_8(BBC0_FSKDM, error)) & 0b11111110;
-    // set the EN to 1
-    transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000001, error);
+    // enable direct modulation and pre - emphasis filter
+    transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000011, error);
 }
 
 void TransceiverTask::modulationConfig(){
     Error err;
-    // config the modulation order, index and BT //
-    // BT = 2, MINDEX = 0.5, 2-FSK
-    // transceiver.spi_write_8(BBC0_FSKC0,210,err);
-    // BT = 2, MINDEX = 0.375, 2-FSK
-    // transceiver.spi_write_8(BBC0_FSKC0,208,err);
-    // BT = 1, MINDEX = 0.5, MINDEX = 0.5, 2-FSK
-    transceiver.spi_write_8(BBC0_FSKC0, 82, err);
+    // BT = 1 , MIDXS = 1, MIDX = 1, MOR = BFSK
+    transceiver.spi_write_8(BBC0_FSKC0, 86, err);
     directModConfig(true);
 }
 
@@ -98,7 +92,7 @@ void TransceiverTask::execute() {
     setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
     transceiver.chip_reset(error);
     transceiver.setup(error);
-    uint16_t currentPacketLength = 64;
+    uint16_t currentPacketLength = 16;
     PacketType packet = createRandomPacket(currentPacketLength);
 
     modulationConfig();
@@ -106,6 +100,6 @@ void TransceiverTask::execute() {
     while(true){
         transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
         LOG_DEBUG << "signal transmitted";
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(2));
     }
 }
