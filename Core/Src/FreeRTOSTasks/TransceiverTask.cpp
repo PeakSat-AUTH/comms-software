@@ -5,7 +5,6 @@ AT86RF215::At86rf215 TransceiverTask::transceiver = AT86RF215::At86rf215(&hspi4,
 
 uint8_t TransceiverTask::checkTheSPI() {
     uint8_t error_t = 0;
-
     DevicePartNumber dpn = transceiver.get_part_number(error);
     switch (dpn) {
         case DevicePartNumber::AT86RF215:
@@ -50,8 +49,33 @@ void TransceiverTask::setConfiguration(uint16_t pllFrequency09, uint8_t pllChann
     CustomConfig.pllChannelNumber09 = pllChannelNumber09;
     CustomConfig.pllChannelMode09 = AT86RF215::PLLChannelMode::FineResolution450;
     CustomConfig.powerAmplifierRampTime09 = AT86RF215::PowerAmplifierRampTime::RF_PARAMP32U;
-    CustomConfig.transmitterCutOffFrequency09 = TransmitterCutOffFrequency::RF_FLC80KHZ;
+    CustomConfig.transmitterCutOffFrequency09 = AT86RF215::TransmitterCutOffFrequency::RF_FLC80KHZ;
+    CustomConfig.transceiverSampleRate09 = AT86RF215::TransmitterSampleRate::FS_400;
     transceiver.config = CustomConfig;
+}
+
+void TransceiverTask::receiverConfig(){
+    transceiver.setup_rx_frontend(AT86RF215::RF09,
+                                  false,
+                                  false,
+                                  AT86RF215::ReceiverBandwidth::RF_BW160KHZ_IF250KHZ,
+                                  AT86RF215::RxRelativeCutoffFrequency::FCUT_0375,
+                                  AT86RF215::ReceiverSampleRate::FS_400,
+                                  true,
+                                  AT86RF215::AverageTimeNumberSamples::AVGS_8,
+                                  true,
+                                  AT86RF215::AutomaticGainTarget::DB42,
+                                  0,
+                                  error);
+
+
+    transceiver.setup_rssi(AT86RF215::RF09,
+                           AT86RF215::EnergyDetectionMode::RF_EDAUTO,
+                           16, // default value
+                           AT86RF215::EnergyDetectionTimeBasis::RF_8MS,
+                           error);
+
+
 }
 
 /*
@@ -72,19 +96,52 @@ uint8_t TransceiverTask::calculatePllChannelNumber09(uint32_t frequency) {
     return N & 0xFF;
 }
 
-void  TransceiverTask::directModConfig(bool enable){
-    Error err;
-    transceiver.set_direct_modulation(RF09, enable, err);
-    uint8_t temp = (transceiver.spi_read_8(BBC0_FSKDM, error)) & 0b11111110;
-    // enable direct modulation and pre - emphasis filter
-    transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000011, error);
+void  TransceiverTask::directModConfigAndPreEmphasisFilter(bool enableDM, bool enablePE){
+    if(enableDM){
+        transceiver.set_direct_modulation(RF09, enableDM, error);
+        uint8_t temp = (transceiver.spi_read_8(BBC0_FSKDM, error)) & 0b11111110;
+        // enable direct modulation in the BaseBand core
+        transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000001, error);
+        if(enablePE){
+            transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000011, error);
+            // pre-emphasis filter settings //
+            transceiver.spi_write_8(BBC0_FSKPE0, 0x2, error);
+            transceiver.spi_write_8(BBC0_FSKPE1, 0x3, error);
+            transceiver.spi_write_8(BBC0_FSKPE2, 0xFC, error);
+        }
+    }
+}
+
+void TransceiverTask::txSRandTxFilter() {
+    AT86RF215::RegisterAddress  regtxdfe;
+    regtxdfe = AT86RF215::RF09_TXDFE;
+
+    uint8_t reg = transceiver.spi_read_8(regtxdfe,error);
+    // RCUT CONFIG
+    transceiver.spi_write_8(regtxdfe, reg | (static_cast<uint8_t>(0x01) << 5), error);
+    // SR Config
+    reg = transceiver.spi_read_8(regtxdfe,error);
+    transceiver.spi_write_8(regtxdfe, reg | (static_cast<uint8_t>(0xA)), error);
+
+}
+
+
+void TransceiverTask::txAnalogFrontEnd() {
+    AT86RF215::RegisterAddress regtxcutc;
+    regtxcutc = AT86RF215::RF09_TXCUTC;
+
+    uint8_t reg = transceiver.spi_read_8(regtxcutc, error);
+    // PARAMP Config
+    transceiver.spi_write_8(regtxcutc, reg | (static_cast<uint8_t>(AT86RF215::PowerAmplifierRampTime::RF_PARAMP32U) << 6), error);
+    // LPFCUT Config
+    transceiver.spi_write_8(regtxcutc, reg | (static_cast<uint8_t>(AT86RF215::TransmitterCutOffFrequency::RF_FLC80KHZ)), error);
 }
 
 void TransceiverTask::modulationConfig(){
     Error err;
     // BT = 1 , MIDXS = 1, MIDX = 1, MOR = B-FSK
     transceiver.spi_write_8(BBC0_FSKC0, 86, err);
-    directModConfig(true);
+    directModConfigAndPreEmphasisFilter(true,true);
 }
 
 void TransceiverTask::execute() {
@@ -96,10 +153,40 @@ void TransceiverTask::execute() {
     PacketType packet = createRandomPacket(currentPacketLength);
 
     modulationConfig();
-
+    uint8_t option = 1;
+    transceiver.transmitBasebandPacketsRx(AT86RF215::RF09, error);
     while(true){
-        transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
-        LOG_DEBUG << "signal transmitted";
-        vTaskDelay(pdMS_TO_TICKS(2));
+
+        if(option == 0)
+        {
+            transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
+            LOG_DEBUG << "signal transmitted";
+            vTaskDelay(pdMS_TO_TICKS(100));
+        }
+        else{
+            for(int i = 0 ; i < 2047; i++)
+                if(transceiver.received_packet[i] != 0)
+                    LOG_DEBUG <<transceiver.received_packet[i];
+            //LOG_DEBUG << transceiver.get_receiver_energy_detection(AT86RF215::RF09, error);
+            /*
+            if(transceiver.get_rssi(AT86RF215::RF09, error) > min && < max )
+            {
+                // then read the packet
+                if(my packet is mine)
+                {
+                    // read it and print the packet
+                }
+                else{
+                    // print wrong packet
+                }
+            }
+            else{
+                // clear the received packet variable and store this packet to another variable for post processing
+            }
+            */
+
+
+        }
+
     }
 }
