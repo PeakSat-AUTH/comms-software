@@ -90,7 +90,7 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
         if(CAN::rxFifo0[0] >> 6 == CAN::TPProtocol::Frame::Single){
             canGatekeeperTask->addSFToIncoming(newFrame);
             xTaskNotifyFromISR(canGatekeeperTask->taskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
         }else{
             canGatekeeperTask->addMFToIncoming(newFrame);
             if(CAN::rxFifo0[0] >> 6 == CAN::TPProtocol::Frame::Final){

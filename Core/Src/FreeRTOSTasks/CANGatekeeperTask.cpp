@@ -33,12 +33,13 @@ void CANGatekeeperTask::execute() {
 
         xTaskNotifyWait(0, 0, &ulNotifiedValue, portMAX_DELAY);
 
-        if(getIncomingSFMessagesCount()){
+        if(uxQueueMessagesWaiting(incomingSFQueue)){
             xQueueReceive(incomingSFQueue, &in_message, portMAX_DELAY);
             CAN::TPProtocol::processSingleFrame(in_message);
+            canGatekeeperTask->switchActiveBus(CAN::Main);
         }
         CAN::TPProtocol::processMultipleFrames();
-
+        canGatekeeperTask->switchActiveBus(CAN::Main);
         if(uxQueueMessagesWaiting(outgoingQueue)){
             xQueueReceive(outgoingQueue, &out_message, portMAX_DELAY);
             CAN::send(out_message, ActiveBus);
