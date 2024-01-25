@@ -6,20 +6,31 @@ extern FDCAN_HandleTypeDef hfdcan1;
 extern FDCAN_HandleTypeDef hfdcan2;
 
 void CAN::configCANFilter() {
-    FDCAN_FilterTypeDef sFilterConfig;
+    FDCAN_FilterTypeDef sFilterConfig1;
 
-    sFilterConfig.IdType = FDCAN_EXTENDED_ID;      // Standard or extended id
-    sFilterConfig.FilterIndex = 0;                          // In case of configuring multiple filters adapt accordingly
-    sFilterConfig.FilterType = FDCAN_FILTER_RANGE;         // Filter type
-    sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;    // Where the messages that pass from the filter will go
-    sFilterConfig.FilterID1 = 0x382;
-    sFilterConfig.FilterID2 = 0x3FF;
-    sFilterConfig.RxBufferIndex = 0;
-    if (HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK) {
+    sFilterConfig1.IdType = FDCAN_EXTENDED_ID;      // Standard or extended id
+    sFilterConfig1.FilterIndex = 0;                          // In case of configuring multiple filters adapt accordingly
+    sFilterConfig1.FilterType = FDCAN_FILTER_RANGE;         // Filter type
+    sFilterConfig1.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;    // Where the messages that pass from the filter will go
+    sFilterConfig1.FilterID1 = 0x382;
+    sFilterConfig1.FilterID2 = 0x3FF;
+    sFilterConfig1.RxBufferIndex = 0;
+    if (HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig1) != HAL_OK) {
         /* Filter configuration Error */
         Error_Handler();
     }
-    if (HAL_FDCAN_ConfigFilter(&hfdcan2, &sFilterConfig) != HAL_OK) {
+
+    FDCAN_FilterTypeDef sFilterConfig2;
+
+    sFilterConfig2.IdType = FDCAN_EXTENDED_ID;      // Standard or extended id
+    sFilterConfig2.FilterIndex = 0;                          // In case of configuring multiple filters adapt accordingly
+    sFilterConfig2.FilterType = FDCAN_FILTER_RANGE;         // Filter type
+    sFilterConfig2.FilterConfig = FDCAN_FILTER_TO_RXFIFO1;    // Where the messages that pass from the filter will go
+    sFilterConfig2.FilterID1 = 0x382;
+    sFilterConfig2.FilterID2 = 0x3FF;
+    sFilterConfig2.RxBufferIndex = 0;
+
+    if (HAL_FDCAN_ConfigFilter(&hfdcan2, &sFilterConfig2) != HAL_OK) {
         /* Filter configuration Error */
         Error_Handler();
     }

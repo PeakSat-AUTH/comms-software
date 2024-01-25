@@ -1,6 +1,7 @@
 #pragma once
 #include "Task.hpp"
-
+#include "stm32h7xx_hal_adc.h"
+#include "stm32h7xx_hal_adc_ex.h"
 #ifdef STM32
 extern ADC_HandleTypeDef hadc3;
 #endif

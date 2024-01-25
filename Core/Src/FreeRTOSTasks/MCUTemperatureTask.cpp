@@ -8,6 +8,9 @@ void MCUTemperatureTask::execute() {
 
     while (true) {
         #ifdef STM32
+        if (HAL_ADCEx_Calibration_Start(&hadc3, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK) {
+            LOG_ERROR << "ADC Calibration failed";
+        }
         HAL_ADC_Start(&hadc3);
         HAL_ADC_PollForConversion(&hadc3, timeoutPollForConversion);
         uint16_t adcValue = HAL_ADC_GetValue(&hadc3);

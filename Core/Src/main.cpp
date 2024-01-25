@@ -21,30 +21,30 @@
 
 extern "C" void main_cpp(){
     uartGatekeeperTask.emplace();
-    //mcuTemperatureTask.emplace();
-    //temperatureSensorsTask.emplace();
-    //timeKeepingTask.emplace();
-    //tcHandlingTask.emplace();
+    mcuTemperatureTask.emplace();
+    temperatureSensorsTask.emplace();
+    timeKeepingTask.emplace();
+    tcHandlingTask.emplace();
     watchdogTask.emplace();
-    //canTestTask.emplace();
-    //canGatekeeperTask.emplace();
-    //statisticsReportingTask.emplace();
-    //housekeepingTask.emplace();
-    //timeBasedSchedulingTask.emplace();
+    canTestTask.emplace();
+    canGatekeeperTask.emplace();
+    statisticsReportingTask.emplace();
+    housekeepingTask.emplace();
+    timeBasedSchedulingTask.emplace();
     transceiverTask.emplace();
 
 
     uartGatekeeperTask->createTask();
-    //temperatureSensorsTask->createTask();
-    //mcuTemperatureTask->createTask();
-    //timeKeepingTask->createTask();
-    //tcHandlingTask->createTask();
+    temperatureSensorsTask->createTask();
+    mcuTemperatureTask->createTask();
+    timeKeepingTask->createTask();
+    tcHandlingTask->createTask();
     watchdogTask->createTask();
-    //canTestTask->createTask();
-    //canGatekeeperTask->createTask();
-    //statisticsReportingTask->createTask();
-    //housekeepingTask->createTask();
-    //timeBasedSchedulingTask->createTask();
+    canTestTask->createTask();
+    canGatekeeperTask->createTask();
+    statisticsReportingTask->createTask();
+    housekeepingTask->createTask();
+    timeBasedSchedulingTask->createTask();
     transceiverTask->createTask();
 
     vTaskStartScheduler();
@@ -105,6 +105,30 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
         }
     }
 }
+
+extern "C" void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+    if ((RxFifo1ITs & FDCAN_IT_RX_FIFO1_NEW_MESSAGE) != RESET) {
+        /* Retreive Rx messages from RX FIFO1 */
+        if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO1, &CAN::rxHeader1, CAN::rxFifo1.data()) != HAL_OK) {
+            /* Reception Error */
+            Error_Handler();
+        }
+        canGatekeeperTask->switchActiveBus(CAN::Main);
+        CAN::rxFifo1.repair();
+        CAN::Frame newFrame = CAN::getFrame(&CAN::rxFifo1, CAN::rxHeader1.Identifier);
+        canGatekeeperTask->addSFToIncoming(newFrame);
+        xTaskNotifyFromISR(canGatekeeperTask->taskHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
+        if (HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO1_NEW_MESSAGE, 0) != HAL_OK) {
+            /* Notification Error */
+            Error_Handler();
+        }
+    }
+}
+
 
 /**
  * @brief This function handles EXTI line[15:10] interrupts.

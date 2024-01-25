@@ -30,6 +30,7 @@ uint8_t TransceiverTask::checkTheSPI() {
                 break;
             default:
                 LOG_DEBUG << "some other error";
+                vTaskSuspend(taskHandle);
         }
     }
     if(error_t == 1)
@@ -106,6 +107,6 @@ void TransceiverTask::execute() {
     while(true){
         transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
         LOG_DEBUG << "signal transmitted";
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(DelayMs));
     }
 }
