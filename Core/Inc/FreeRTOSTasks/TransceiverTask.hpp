@@ -16,6 +16,10 @@ public:
     using PacketType = etl::array<uint8_t, MaxPacketLength>;
     static AT86RF215::At86rf215 transceiver;
     /**
+     * txrx_bool = 0 for TX, 1 for RX
+     */
+    uint8_t txrx_bool = 0;
+    /**
      * Function to check the SPI functionality.
      * In fine working functionality, we get Part Number At86rf21.
      * @return 0 if it works fine, 1 otherwise.

@@ -4,36 +4,16 @@ using namespace AT86RF215;
 AT86RF215::At86rf215 TransceiverTask::transceiver = AT86RF215::At86rf215(&hspi4, AT86RF215::AT86RF215Configuration());
 
 uint8_t TransceiverTask::checkTheSPI() {
-    uint8_t error_t = 0;
+    uint8_t spi_error = 0;
     DevicePartNumber dpn = transceiver.get_part_number(error);
-    switch (dpn) {
-        case DevicePartNumber::AT86RF215:
-            LOG_DEBUG << "Part Number : AT86RF215" ;
-            break;
-        case DevicePartNumber::AT86RF215IQ:
-            LOG_DEBUG << "Part Number : AT86RF215IQ" ;
-            break;
-        case DevicePartNumber::AT86RF215M:
-            LOG_DEBUG << "Part Number : AT86RF215M" ;
-            break;
-        case DevicePartNumber::AT86RF215_INVALID:
-            LOG_DEBUG << "Invalid";
-            error_t = 1;
-            break;
-    }
-    if(error != NO_ERRORS){
-        error_t = 1;
-        switch (error) {
-            case FAILED_READING_FROM_REGISTER:
-                LOG_DEBUG << "Failed reading from register" ;
-                break;
-            default:
-                LOG_DEBUG << "some other error";
-        }
-    }
-    if(error_t == 1)
+    if(dpn == DevicePartNumber::AT86RF215)
+        LOG_DEBUG << "SPI OK" ;
+    else{
+        spi_error = 1;
+        LOG_DEBUG << "SPI ERROR" ;
         transceiver.chip_reset(error);
-    return error_t;
+    }
+    return spi_error;
 }
 
 TransceiverTask::PacketType TransceiverTask::createRandomPacket(uint16_t length) {
@@ -51,7 +31,10 @@ void TransceiverTask::setConfiguration(uint16_t pllFrequency09, uint8_t pllChann
     CustomConfig.powerAmplifierRampTime09 = AT86RF215::PowerAmplifierRampTime::RF_PARAMP32U;
     CustomConfig.transmitterCutOffFrequency09 = AT86RF215::TransmitterCutOffFrequency::RF_FLC100KHZ;
     CustomConfig.transceiverSampleRate09 = AT86RF215::TransmitterSampleRate::FS_400;
-    CustomConfig.continuousTransmit09 = true;
+    CustomConfig.continuousTransmit09 = false;
+    CustomConfig.baseBandEnable09 = true;
+    CustomConfig.physicalLayerType09 = PhysicalLayerType::BB_MRFSK;
+    CustomConfig. frameCheckSequenceType09 = FrameCheckSequenceType::FCS_16;
     transceiver.config = CustomConfig;
 }
 
@@ -79,7 +62,6 @@ void TransceiverTask::receiverConfig(bool agc_enable){
                            16, // default value
                            AT86RF215::EnergyDetectionTimeBasis::RF_8MS,
                            error);
-
 }
 
 /*
@@ -142,81 +124,58 @@ void TransceiverTask::txAnalogFrontEnd() {
 }
 
 void TransceiverTask::modulationConfig(){
-    Error err;
     // BT = 1 , MIDXS = 1, MIDX = 1, MOR = B-FSK
-    transceiver.spi_write_8(BBC0_FSKC0, 86, err);
+    transceiver.spi_write_8(BBC0_FSKC0, 86, error);
     directModConfigAndPreEmphasisFilter(true,false, false);
 }
 
 void TransceiverTask::execute() {
-    //while (checkTheSPI() != 0);
+    while (checkTheSPI() != 0);
     setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
     transceiver.chip_reset(error);
-
     transceiver.setup(error);
     txAnalogFrontEnd();
     txSRandTxFilter();
-
     modulationConfig();
     receiverConfig(true);
 
-    uint16_t currentPacketLength = 16;
+    uint16_t currentPacketLength = 48;
     PacketType packet = createRandomPacket(currentPacketLength);
 
-    uint8_t option = 1;
-
-
-    transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
-    vTaskDelay(pdMS_TO_TICKS(10));
-    transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
-    if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
-        LOG_DEBUG << " state = RX ";
+    if(transceiverTask->txrx_bool){
+        transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
+        vTaskDelay(pdMS_TO_TICKS(10));
+        transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
+        if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
+            LOG_DEBUG << " state = RX ";
+    }
 
     uint8_t radio_irq = 0;
 
-    while (true) {
-
+    while(true) {
         if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
-            LOG_DEBUG << " state = RX ";
+            LOG_DEBUG << " STATE = RX ";
         else if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_TXPREP))
-            LOG_DEBUG << " state = TXPREP ";
+            LOG_DEBUG << " STATE = TXPREP ";
         else
-            LOG_DEBUG << " state = do not know";
-        if (option == 0) {
-
-            //transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
-
-            //LOG_DEBUG << "signal transmitted";
-            //vTaskDelay(pdMS_TO_TICKS(2));
-            radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
-            LOG_DEBUG << "RADIO IRQ : " << radio_irq;
-            transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
-
-        } else {
+            LOG_DEBUG << " STATE = OTHER ";
+        if(transceiverTask->txrx_bool)
+        {
             //while(!(transceiver.get_state(AT86RF215::RF09, error) == AT86RF215::State::RF_TXPREP));
             radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
-            LOG_DEBUG << "RADIO IRQ : " << radio_irq;
-            LOG_DEBUG << " average rssi value " << transceiver.energy_measurement;
-            LOG_DEBUG << " current rssi" << transceiver.get_rssi(AT86RF215::RF09, error);
-            //vTaskDelay(pdMS_TO_TICKS(10));
+            LOG_DEBUG << " RADIO IRQ = " << radio_irq;
+            LOG_DEBUG << " AVERAGE RSSI = " << transceiver.energy_measurement;
+            LOG_DEBUG << " CURRENT RSSI = " << transceiver.get_rssi(AT86RF215::RF09, error);
+            // vTaskDelay(pdMS_TO_TICKS(10));
+        }
+        else{
+            //transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
+            //LOG_DEBUG << "signal transmitted";
 
-            // if it goes here the RF IS AT STATE TXPREP
-            //vTaskDelay(pdMS_TO_TICKS(1));
-            //LOG_DEBUG << " state = RX " ;
-
-            //vTaskDelay(pdMS_TO_TICKS(10));
-            //transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
-            //vTaskDelay(pdMS_TO_TICKS(10));
-            //if(transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_TXPREP))
-            //LOG_DEBUG << " state = TXPREP " ;
-            //transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
-            // It will go again in RF_TXPREP with IRQ: RXFE (automatically I guess)
-            /*
-            for (int i = 0; i < 2047; i++) {
-                if (transceiver.received_packet[i] != 0)
-                    LOG_DEBUG << transceiver.received_packet[i];
-            }
-             */
+            radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
+            LOG_DEBUG << "RADIO IRQ = " << radio_irq;
+            transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
+            vTaskDelay(pdMS_TO_TICKS(100));
 
         }
     }
