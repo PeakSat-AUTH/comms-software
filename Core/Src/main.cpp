@@ -110,7 +110,7 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
  * @brief This function handles EXTI line[15:10] interrupts.
  */
 
-extern "C" void EXTI15_10_IRQHandler(void) {
+extern "C" [[maybe_unused]] void EXTI15_10_IRQHandler(void) {
     HAL_GPIO_EXTI_IRQHandler(TransceiverIT_Pin);
     TransceiverTask::transceiver.handle_irq();
 }

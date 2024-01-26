@@ -46,7 +46,7 @@ public:
      *
      * @param enable true for turning ON the direct modulation
      */
-    void directModConfigAndPreEmphasisFilter(bool enableDM, bool enablePE);
+    void directModConfigAndPreEmphasisFilter(bool enableDM, bool enablePE, bool recommended);
     /**
      * Sets the modulation parameters (index, order and B*T) and sets the direct modulation ON
      */
@@ -54,7 +54,7 @@ public:
     /**
      * Sets the receiver front end parameters for modulation index 1 according to table 6-62.
      */
-    void receiverConfig();
+    void receiverConfig(bool agc_enabled);
 
     void txSRandTxFilter();
 

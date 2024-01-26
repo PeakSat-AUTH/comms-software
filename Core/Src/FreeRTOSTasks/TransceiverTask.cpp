@@ -49,32 +49,36 @@ void TransceiverTask::setConfiguration(uint16_t pllFrequency09, uint8_t pllChann
     CustomConfig.pllChannelNumber09 = pllChannelNumber09;
     CustomConfig.pllChannelMode09 = AT86RF215::PLLChannelMode::FineResolution450;
     CustomConfig.powerAmplifierRampTime09 = AT86RF215::PowerAmplifierRampTime::RF_PARAMP32U;
-    CustomConfig.transmitterCutOffFrequency09 = AT86RF215::TransmitterCutOffFrequency::RF_FLC80KHZ;
+    CustomConfig.transmitterCutOffFrequency09 = AT86RF215::TransmitterCutOffFrequency::RF_FLC100KHZ;
     CustomConfig.transceiverSampleRate09 = AT86RF215::TransmitterSampleRate::FS_400;
+    CustomConfig.continuousTransmit09 = true;
     transceiver.config = CustomConfig;
 }
 
-void TransceiverTask::receiverConfig(){
+void TransceiverTask::receiverConfig(bool agc_enable){
     transceiver.setup_rx_frontend(AT86RF215::RF09,
                                   false,
                                   false,
-                                  AT86RF215::ReceiverBandwidth::RF_BW160KHZ_IF250KHZ,
+                                  AT86RF215::ReceiverBandwidth::RF_BW200KHZ_IF250KHZ,
                                   AT86RF215::RxRelativeCutoffFrequency::FCUT_0375,
                                   AT86RF215::ReceiverSampleRate::FS_400,
-                                  true,
+                                  false,
                                   AT86RF215::AverageTimeNumberSamples::AVGS_8,
-                                  true,
-                                  AT86RF215::AutomaticGainTarget::DB42,
-                                  0,
+                                  false,
+                                  AT86RF215::AutomaticGainTarget::DB30,
+                                  23,
                                   error);
-
+    // ENABLE AGC
+    RegisterAddress regagcc = AT86RF215::RF09_AGCC;
+    uint8_t reg = transceiver.spi_read_8(regagcc, error);
+    reg = reg | (static_cast<uint8_t>(agc_enable));
+    transceiver.spi_write_8(regagcc, reg, error);
 
     transceiver.setup_rssi(AT86RF215::RF09,
                            AT86RF215::EnergyDetectionMode::RF_EDAUTO,
                            16, // default value
                            AT86RF215::EnergyDetectionTimeBasis::RF_8MS,
                            error);
-
 
 }
 
@@ -96,18 +100,20 @@ uint8_t TransceiverTask::calculatePllChannelNumber09(uint32_t frequency) {
     return N & 0xFF;
 }
 
-void  TransceiverTask::directModConfigAndPreEmphasisFilter(bool enableDM, bool enablePE){
+void  TransceiverTask::directModConfigAndPreEmphasisFilter(bool enableDM, bool enablePE, bool recommended){
     if(enableDM){
         transceiver.set_direct_modulation(RF09, enableDM, error);
         uint8_t temp = (transceiver.spi_read_8(BBC0_FSKDM, error)) & 0b11111110;
         // enable direct modulation in the BaseBand core
         transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000001, error);
+
         if(enablePE){
             transceiver.spi_write_8(BBC0_FSKDM, temp | 0b00000011, error);
-            // pre-emphasis filter settings //
-            transceiver.spi_write_8(BBC0_FSKPE0, 0x2, error);
-            transceiver.spi_write_8(BBC0_FSKPE1, 0x3, error);
-            transceiver.spi_write_8(BBC0_FSKPE2, 0xFC, error);
+            if(recommended){
+                transceiver.spi_write_8(BBC0_FSKPE0, 0x2, error);
+                transceiver.spi_write_8(BBC0_FSKPE1, 0x3, error);
+                transceiver.spi_write_8(BBC0_FSKPE2, 0xFC, error);
+            }
         }
     }
 }
@@ -122,9 +128,7 @@ void TransceiverTask::txSRandTxFilter() {
     // SR Config
     reg = transceiver.spi_read_8(regtxdfe,error);
     transceiver.spi_write_8(regtxdfe, reg | (static_cast<uint8_t>(0xA)), error);
-
 }
-
 
 void TransceiverTask::txAnalogFrontEnd() {
     AT86RF215::RegisterAddress regtxcutc;
@@ -141,52 +145,79 @@ void TransceiverTask::modulationConfig(){
     Error err;
     // BT = 1 , MIDXS = 1, MIDX = 1, MOR = B-FSK
     transceiver.spi_write_8(BBC0_FSKC0, 86, err);
-    directModConfigAndPreEmphasisFilter(true,true);
+    directModConfigAndPreEmphasisFilter(true,false, false);
 }
 
 void TransceiverTask::execute() {
-    while(checkTheSPI() != 0);
+    //while (checkTheSPI() != 0);
     setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
     transceiver.chip_reset(error);
+
     transceiver.setup(error);
+    txAnalogFrontEnd();
+    txSRandTxFilter();
+
+    modulationConfig();
+    receiverConfig(true);
+
     uint16_t currentPacketLength = 16;
     PacketType packet = createRandomPacket(currentPacketLength);
 
-    modulationConfig();
     uint8_t option = 1;
-    transceiver.transmitBasebandPacketsRx(AT86RF215::RF09, error);
-    while(true){
 
-        if(option == 0)
-        {
+
+    transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
+    vTaskDelay(pdMS_TO_TICKS(10));
+    transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
+    if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
+        LOG_DEBUG << " state = RX ";
+
+    uint8_t radio_irq = 0;
+
+    while (true) {
+
+        if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
+            LOG_DEBUG << " state = RX ";
+        else if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_TXPREP))
+            LOG_DEBUG << " state = TXPREP ";
+        else
+            LOG_DEBUG << " state = do not know";
+        if (option == 0) {
+
+            //transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
+
+            //LOG_DEBUG << "signal transmitted";
+            //vTaskDelay(pdMS_TO_TICKS(2));
+            radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
+            LOG_DEBUG << "RADIO IRQ : " << radio_irq;
             transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
-            LOG_DEBUG << "signal transmitted";
-            vTaskDelay(pdMS_TO_TICKS(100));
-        }
-        else{
-            for(int i = 0 ; i < 2047; i++)
-                if(transceiver.received_packet[i] != 0)
-                    LOG_DEBUG <<transceiver.received_packet[i];
-            //LOG_DEBUG << transceiver.get_receiver_energy_detection(AT86RF215::RF09, error);
+
+        } else {
+            //while(!(transceiver.get_state(AT86RF215::RF09, error) == AT86RF215::State::RF_TXPREP));
+            radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
+            LOG_DEBUG << "RADIO IRQ : " << radio_irq;
+            LOG_DEBUG << " average rssi value " << transceiver.energy_measurement;
+            LOG_DEBUG << " current rssi" << transceiver.get_rssi(AT86RF215::RF09, error);
+            //vTaskDelay(pdMS_TO_TICKS(10));
+
+            // if it goes here the RF IS AT STATE TXPREP
+            //vTaskDelay(pdMS_TO_TICKS(1));
+            //LOG_DEBUG << " state = RX " ;
+
+            //vTaskDelay(pdMS_TO_TICKS(10));
+            //transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
+            //vTaskDelay(pdMS_TO_TICKS(10));
+            //if(transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_TXPREP))
+            //LOG_DEBUG << " state = TXPREP " ;
+            //transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
+            // It will go again in RF_TXPREP with IRQ: RXFE (automatically I guess)
             /*
-            if(transceiver.get_rssi(AT86RF215::RF09, error) > min && < max )
-            {
-                // then read the packet
-                if(my packet is mine)
-                {
-                    // read it and print the packet
-                }
-                else{
-                    // print wrong packet
-                }
+            for (int i = 0; i < 2047; i++) {
+                if (transceiver.received_packet[i] != 0)
+                    LOG_DEBUG << transceiver.received_packet[i];
             }
-            else{
-                // clear the received packet variable and store this packet to another variable for post processing
-            }
-            */
-
+             */
 
         }
-
     }
 }
