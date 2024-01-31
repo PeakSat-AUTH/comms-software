@@ -1,4 +1,5 @@
 #include "TransceiverTask.hpp"
+
 using namespace AT86RF215;
 
 AT86RF215::At86rf215 TransceiverTask::transceiver = AT86RF215::At86rf215(&hspi4, AT86RF215::AT86RF215Configuration());
@@ -139,7 +140,7 @@ void TransceiverTask::execute() {
     modulationConfig();
     receiverConfig(true);
 
-    uint16_t currentPacketLength = 48;
+    uint16_t currentPacketLength = 64;
     PacketType packet = createRandomPacket(currentPacketLength);
 
     if(transceiverTask->txrx_bool){
@@ -149,34 +150,40 @@ void TransceiverTask::execute() {
         if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
             LOG_DEBUG << " state = RX ";
     }
+    else{
+        transceiver.TransmitterFrameEnd_flag = true;
+        transceiver.TransceiverReady_flag = true;
+    }
 
-    uint8_t radio_irq = 0;
+    uint32_t timer = 0;
+    bool timer_flag = false;
+    uint8_t error_flag = 0;
 
     while(true) {
-        if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
-            LOG_DEBUG << " STATE = RX ";
-        else if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_TXPREP))
-            LOG_DEBUG << " STATE = TXPREP ";
-        else
-            LOG_DEBUG << " STATE = OTHER ";
-        if(transceiverTask->txrx_bool)
+        timer++;
+        if(timer == 1000000)
+            timer_flag = true;
+
+        if(transceiverTask->txrx_bool && transceiver.ReceiverFrameEnd_flag)
         {
-            //while(!(transceiver.get_state(AT86RF215::RF09, error) == AT86RF215::State::RF_TXPREP));
-            radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
-            LOG_DEBUG << " RADIO IRQ = " << radio_irq;
-            LOG_DEBUG << " AVERAGE RSSI = " << transceiver.energy_measurement;
-            LOG_DEBUG << " CURRENT RSSI = " << transceiver.get_rssi(AT86RF215::RF09, error);
-            // vTaskDelay(pdMS_TO_TICKS(10));
+            LOG_DEBUG << "receiver frame end";
+            transceiver.ReceiverFrameEnd_flag = false;
+            transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
+            //uint8_t length = (transceiver.spi_read_8(AT86RF215::BBC0_TXFLH, error) << 8) | static_cast<uint16_t>(transceiver.spi_read_8(AT86RF215::BBC0_TXFLH, error)) ;
+            //LOG_DEBUG << "LENGTH = " << length ;
+            vTaskDelay(pdMS_TO_TICKS(10));
+            transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
+
         }
         else{
-            //transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
-            //LOG_DEBUG << "signal transmitted";
-
-            radio_irq = transceiver.get_irq(AT86RF215::RF09, error);
-            LOG_DEBUG << "RADIO IRQ = " << radio_irq;
-            transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
-            vTaskDelay(pdMS_TO_TICKS(100));
-
+            if(transceiver.TransceiverReady_flag && transceiver.TransmitterFrameEnd_flag) {
+                transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
+                transceiver.TransmitterFrameEnd_flag = false;
+                transceiver.TransceiverReady_flag = false;
+                LOG_DEBUG << "SENT" ;
+                timer_flag = false;
+                timer = 0;
+            }
         }
     }
 }

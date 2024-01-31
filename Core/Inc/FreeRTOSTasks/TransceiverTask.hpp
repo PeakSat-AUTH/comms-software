@@ -16,9 +16,12 @@ public:
     using PacketType = etl::array<uint8_t, MaxPacketLength>;
     static AT86RF215::At86rf215 transceiver;
     /**
-     * txrx_bool = 0 for TX, 1 for RX
+     *  0 for TX, 1 for RX
      */
-    uint8_t txrx_bool = 0;
+    uint8_t txrx_bool = 1;
+    /*
+     *
+     */
     /**
      * Function to check the SPI functionality.
      * In fine working functionality, we get Part Number At86rf21.
@@ -65,7 +68,9 @@ public:
     void txAnalogFrontEnd();
 
 
-    TransceiverTask() : Task("Transceiver signal transmission") {}
+
+    TransceiverTask() : Task("Transceiver signal transmission") {
+    }
 
     void execute();
 
@@ -80,6 +85,7 @@ private:
     constexpr static uint16_t DelayMs = 1;
     constexpr static uint16_t TaskStackDepth = 2000;
     constexpr static uint32_t FrequencyUHF = 401000;
+
     // QueueHandle_t packetQueue;
     AT86RF215::Error error;
     StackType_t taskStack[TaskStackDepth];
