@@ -30,6 +30,7 @@ uint8_t TransceiverTask::checkTheSPI() {
                 break;
             default:
                 LOG_DEBUG << "some other error";
+                vTaskSuspend(NULL);
         }
     }
     if(error_t == 1)

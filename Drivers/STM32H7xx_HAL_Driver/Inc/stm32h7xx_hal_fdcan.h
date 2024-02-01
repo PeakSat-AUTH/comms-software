@@ -1291,11 +1291,11 @@ typedef  void (*pFDCAN_TT_GlobalTimeCallbackTypeDef)(FDCAN_HandleTypeDef *hfdcan
   * @}
   */
 
-/** @defgroup FDCAN_TT_Reference_Message_Payload FDCAN TT reference message messageBody
+/** @defgroup FDCAN_TT_Reference_Message_Payload FDCAN TT reference message payload
   * @{
   */
-#define FDCAN_TT_REF_MESSAGE_NO_PAYLOAD  ((uint32_t)0x00000000U)      /*!< Reference message has no additional messageBody  */
-#define FDCAN_TT_REF_MESSAGE_ADD_PAYLOAD ((uint32_t)FDCAN_TTRMC_RMPS) /*!< Additional messageBody is taken from Tx Buffer 0 */
+#define FDCAN_TT_REF_MESSAGE_NO_PAYLOAD  ((uint32_t)0x00000000U)      /*!< Reference message has no additional payload  */
+#define FDCAN_TT_REF_MESSAGE_ADD_PAYLOAD ((uint32_t)FDCAN_TTRMC_RMPS) /*!< Additional payload is taken from Tx Buffer 0 */
 /**
   * @}
   */

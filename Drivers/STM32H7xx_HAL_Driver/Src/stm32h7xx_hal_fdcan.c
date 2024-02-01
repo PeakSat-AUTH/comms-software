@@ -2686,7 +2686,7 @@ HAL_StatusTypeDef HAL_FDCAN_Stop(FDCAN_HandleTypeDef *hfdcan)
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
   * @param  pTxHeader pointer to a FDCAN_TxHeaderTypeDef structure.
-  * @param  pTxData pointer to a buffer containing the messageBody of the Tx frame.
+  * @param  pTxData pointer to a buffer containing the payload of the Tx frame.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_FDCAN_AddMessageToTxFifoQ(FDCAN_HandleTypeDef *hfdcan, FDCAN_TxHeaderTypeDef *pTxHeader, uint8_t *pTxData)
@@ -2762,7 +2762,7 @@ HAL_StatusTypeDef HAL_FDCAN_AddMessageToTxFifoQ(FDCAN_HandleTypeDef *hfdcan, FDC
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
   * @param  pTxHeader pointer to a FDCAN_TxHeaderTypeDef structure.
-  * @param  pTxData pointer to a buffer containing the messageBody of the Tx frame.
+  * @param  pTxData pointer to a buffer containing the payload of the Tx frame.
   * @param  BufferIndex index of the buffer to be configured.
   *         This parameter can be a value of @arg FDCAN_Tx_location.
   * @retval HAL status
@@ -2902,7 +2902,7 @@ HAL_StatusTypeDef HAL_FDCAN_AbortTxRequest(FDCAN_HandleTypeDef *hfdcan, uint32_t
   * @param  RxLocation Location of the received message to be read.
   *         This parameter can be a value of @arg FDCAN_Rx_location.
   * @param  pRxHeader pointer to a FDCAN_RxHeaderTypeDef structure.
-  * @param  pRxData pointer to a buffer where the messageBody of the Rx frame will be stored.
+  * @param  pRxData pointer to a buffer where the payload of the Rx frame will be stored.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t RxLocation, FDCAN_RxHeaderTypeDef *pRxHeader, uint8_t *pRxData)
@@ -3048,10 +3048,10 @@ HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t R
     /* Retrieve NonMatchingFrame */
     pRxHeader->IsFilterMatchingFrame = ((*RxAddress & FDCAN_ELEMENT_MASK_ANMF) >> 31);
 
-    /* Increment RxAddress pointer to messageBody of Rx FIFO element */
+    /* Increment RxAddress pointer to payload of Rx FIFO element */
     RxAddress++;
 
-    /* Retrieve Rx messageBody */
+    /* Retrieve Rx payload */
     pData = (uint8_t *)RxAddress;
     for (ByteCounter = 0; ByteCounter < DLCtoBytes[pRxHeader->DataLength >> 16]; ByteCounter++)
     {
@@ -3620,7 +3620,7 @@ HAL_StatusTypeDef HAL_FDCAN_TT_ConfigOperation(FDCAN_HandleTypeDef *hfdcan, FDCA
   *         This parameter must be a number between:
   *           - 0 and 0x7FF, if IdType is FDCAN_STANDARD_ID
   *           - 0 and 0x1FFFFFFF, if IdType is FDCAN_EXTENDED_ID
-  * @param  Payload Enable or disable the additional messageBody.
+  * @param  Payload Enable or disable the additional payload.
   *         This parameter can be a value of @arg FDCAN_TT_Reference_Message_Payload.
   *         This parameter is ignored in case of time slaves.
   *         If this parameter is set to FDCAN_TT_REF_MESSAGE_ADD_PAYLOAD, the
@@ -3628,7 +3628,7 @@ HAL_StatusTypeDef HAL_FDCAN_TT_ConfigOperation(FDCAN_HandleTypeDef *hfdcan, FDCA
   *          - MessageMarker
   *          - TxEventFifoControl
   *          - DataLength
-  *          - Data Bytes (messageBody):
+  *          - Data Bytes (payload):
   *             - bytes 2-8, for Level 1
   *             - bytes 5-8, for Level 0 and Level 2
   * @retval HAL status
@@ -3650,7 +3650,7 @@ HAL_StatusTypeDef HAL_FDCAN_TT_ConfigReferenceMessage(FDCAN_HandleTypeDef *hfdca
 
   if (hfdcan->State == HAL_FDCAN_STATE_READY)
   {
-    /* Configure reference message identifier type, identifier and messageBody */
+    /* Configure reference message identifier type, identifier and payload */
     if (IdType == FDCAN_EXTENDED_ID)
     {
       MODIFY_REG(hfdcan->ttcan->TTRMC, (FDCAN_TTRMC_RID | FDCAN_TTRMC_XTD | FDCAN_TTRMC_RMPS), (Payload | IdType | Identifier));
@@ -6134,7 +6134,7 @@ static HAL_StatusTypeDef FDCAN_CalcultateRamBlockAddresses(FDCAN_HandleTypeDef *
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
   * @param  pTxHeader pointer to a FDCAN_TxHeaderTypeDef structure.
-  * @param  pTxData pointer to a buffer containing the messageBody of the Tx frame.
+  * @param  pTxData pointer to a buffer containing the payload of the Tx frame.
   * @param  BufferIndex index of the buffer to be configured.
   * @retval HAL status
  */
@@ -6177,7 +6177,7 @@ static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, FDCAN_TxHeaderTy
   *TxAddress = TxElementW2;
   TxAddress++;
 
-  /* Write Tx messageBody to the message RAM */
+  /* Write Tx payload to the message RAM */
   for (ByteCounter = 0; ByteCounter < DLCtoBytes[pTxHeader->DataLength >> 16]; ByteCounter += 4U)
   {
     *TxAddress = (((uint32_t)pTxData[ByteCounter + 3U] << 24) |

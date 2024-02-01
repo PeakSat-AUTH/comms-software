@@ -23,8 +23,8 @@ extern "C" void main_cpp(){
     uartGatekeeperTask.emplace();
     //mcuTemperatureTask.emplace();
     //temperatureSensorsTask.emplace();
-    //timeKeepingTask.emplace();
-    //tcHandlingTask.emplace();
+    timeKeepingTask.emplace();
+    tcHandlingTask.emplace();
     watchdogTask.emplace();
     //canTestTask.emplace();
     //canGatekeeperTask.emplace();
@@ -37,8 +37,8 @@ extern "C" void main_cpp(){
     uartGatekeeperTask->createTask();
     //temperatureSensorsTask->createTask();
     //mcuTemperatureTask->createTask();
-    //timeKeepingTask->createTask();
-    //tcHandlingTask->createTask();
+    timeKeepingTask->createTask();
+    tcHandlingTask->createTask();
     watchdogTask->createTask();
     //canTestTask->createTask();
     //canGatekeeperTask->createTask();
