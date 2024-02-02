@@ -18,10 +18,8 @@ public:
     /**
      *  0 for TX, 1 for RX
      */
-    uint8_t txrx_bool = 1;
-    /*
-     *
-     */
+    uint8_t txrx_bool = 0;
+    uint8_t tx_buf[64];
     /**
      * Function to check the SPI functionality.
      * In fine working functionality, we get Part Number At86rf21.
