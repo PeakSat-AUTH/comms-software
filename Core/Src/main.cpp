@@ -111,7 +111,7 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
  */
 
 extern "C" [[maybe_unused]] void EXTI15_10_IRQHandler(void) {
-    HAL_GPIO_EXTI_IRQHandler(TransceiverIT_Pin);
+    HAL_GPIO_EXTI_IRQHandler(RF_IRQ_Pin);
     transceiverTask->transceiver.handle_irq();
 }
 

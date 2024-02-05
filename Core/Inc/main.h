@@ -56,8 +56,14 @@ void main_cpp();
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define NSS_RF_Pin GPIO_PIN_4
-#define NSS_RF_GPIO_Port GPIOE
+#define RF_SPI_SCL_Pin GPIO_PIN_2
+#define RF_SPI_SCL_GPIO_Port GPIOE
+#define RF_SPI_SEL_Pin GPIO_PIN_4
+#define RF_SPI_SEL_GPIO_Port GPIOE
+#define RF_SPI_MISO_Pin GPIO_PIN_5
+#define RF_SPI_MISO_GPIO_Port GPIOE
+#define RF_SPI_MOSI_Pin GPIO_PIN_6
+#define RF_SPI_MOSI_GPIO_Port GPIOE
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
 #define USER_Btn_EXTI_IRQn EXTI15_10_IRQn
@@ -83,9 +89,9 @@ void main_cpp();
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
-#define TransceiverIT_Pin GPIO_PIN_15
-#define TransceiverIT_GPIO_Port GPIOD
-#define TransceiverIT_EXTI_IRQn EXTI15_10_IRQn
+#define RF_IRQ_Pin GPIO_PIN_15
+#define RF_IRQ_GPIO_Port GPIOD
+#define RF_IRQ_EXTI_IRQn EXTI15_10_IRQn
 #define USB_PowerSwitchOn_Pin GPIO_PIN_6
 #define USB_PowerSwitchOn_GPIO_Port GPIOG
 #define USB_OverCurrent_Pin GPIO_PIN_7

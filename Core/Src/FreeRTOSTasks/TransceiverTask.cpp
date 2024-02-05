@@ -205,6 +205,7 @@ void TransceiverTask::execute() {
         {
             transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, tx_buf, currentPacketLength, error);
             vTaskDelay(pdMS_TO_TICKS(1000));
+
             transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
 
             transceiver.TransmitterFrameEnd_flag = false;

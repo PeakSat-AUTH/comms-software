@@ -728,7 +728,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(NSS_RF_GPIO_Port, NSS_RF_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(RF_SPI_SEL_GPIO_Port, RF_SPI_SEL_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
@@ -736,12 +736,12 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : NSS_RF_Pin */
-  GPIO_InitStruct.Pin = NSS_RF_Pin;
+  /*Configure GPIO pin : RF_SPI_SEL_Pin */
+  GPIO_InitStruct.Pin = RF_SPI_SEL_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(NSS_RF_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(RF_SPI_SEL_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USER_Btn_Pin */
   GPIO_InitStruct.Pin = USER_Btn_Pin;
@@ -780,11 +780,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : TransceiverIT_Pin */
-  GPIO_InitStruct.Pin = TransceiverIT_Pin;
+  /*Configure GPIO pin : RF_IRQ_Pin */
+  GPIO_InitStruct.Pin = RF_IRQ_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(TransceiverIT_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(RF_IRQ_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
   GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
