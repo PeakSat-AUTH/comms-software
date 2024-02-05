@@ -20,8 +20,7 @@ uint8_t TransceiverTask::checkTheSPI() {
 TransceiverTask::PacketType TransceiverTask::createRandomPacket(uint16_t length) {
     PacketType packet;
     for (std::size_t i = 0; i < length; i++) {
-        packet[i] = 1;
-        tx_buf[i] = i;
+        packet[i] = i;
     }
     return packet;
 }
@@ -148,8 +147,8 @@ void TransceiverTask::execute() {
     modulationConfig();
     receiverConfig(true);
 
-    uint16_t currentPacketLength = 64;
-    PacketType packet = createRandomPacket(currentPacketLength);
+    uint16_t currentPacketLength = MaxPacketLength;
+    PacketType packet = createRandomPacket(MaxPacketLength);
 
 //    transceiver.spi_write_8(AT86RF215::BBC0_FSKC1, 192, error);
 //    transceiver.spi_write_8(AT86RF215::BBC0_FSKC2, 81, error);
@@ -167,52 +166,44 @@ void TransceiverTask::execute() {
         transceiver.TransmitterFrameEnd_flag = true;
     }
 
-//    uint32_t timer = 0;
-//    bool timer_flag = false;
-//    uint8_t error_flag = 0;
-//    uint8_t last_octet = 0;
+    uint32_t ok_packets = 0, wrong_packets = 0, sent_packets = 0;
 
     while(true) {
-//        timer++;
-//        if(timer == 1000000)
-//            timer_flag = true;
-        if(transceiverTask->txrx_bool && transceiver.ReceiverFrameStart_flag)
-        {
-            LOG_DEBUG << "receiver frame start";
-            transceiver.ReceiverFrameStart_flag = false;
-            uint8_t length_high = transceiver.spi_read_8(AT86RF215::BBC0_RXFLH, error);
-            uint8_t length_low = transceiver.spi_read_8(AT86RF215::BBC0_RXFLL, error);
-            LOG_DEBUG << "LENGTH_LOW = " << length_high ;
-            LOG_DEBUG << "LENGTH_HIGH = " << length_low ;
-        }
+
         if(transceiverTask->txrx_bool && transceiver.ReceiverFrameEnd_flag)
         {
-            LOG_DEBUG << "receiver frame end";
             transceiver.ReceiverFrameEnd_flag = false;
-//            last_octet = transceiver.spi_read_8(AT86RF215::BBC0_FBRXE, error);
-//            LOG_DEBUG << "LAST_OCTET = " << last_octet ;
-            transceiver.packetReception(AT86RF215::RF09, error);
-
-            for(int i = 0 ; i < 100; i++)
-                LOG_DEBUG << transceiver.received_packet[i];
+            uint16_t okay_byte = 0;
+            for(int i = 0 ; i < MaxPacketLength; i++)
+                if(i == transceiver.spi_read_8((AT86RF215::BBC0_FBRXS)+i, error))
+                {
+                    okay_byte++;
+                    if(okay_byte == MaxPacketLength)
+                    {
+                        ok_packets++;
+                        LOG_DEBUG << "successfully received packets " << ok_packets ;
+                        okay_byte = 0;
+                    }
+                }
+                else{
+                    wrong_packets++;
+                    LOG_DEBUG << " WRONG PACKET, " <<  wrong_packets;
+                    vTaskDelay(5000);
+                }
 
             transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
-            vTaskDelay(pdMS_TO_TICKS(10));
+            vTaskDelay(pdMS_TO_TICKS(5));
             transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
 
         }
         if(transceiverTask->txrx_bool == false && transceiver.TransmitterFrameEnd_flag)
         {
-            transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, tx_buf, currentPacketLength, error);
-            vTaskDelay(pdMS_TO_TICKS(1000));
-
+            sent_packets++;
+            transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
+            vTaskDelay(pdMS_TO_TICKS(50));
             transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
-
             transceiver.TransmitterFrameEnd_flag = false;
-//          transceiver.TransceiverReady_flag = false;
-            LOG_DEBUG << "SENT" ;
-//                timer_flag = false;
-//                timer = 0;
+            LOG_DEBUG << "TRANSMISSION OF PACKET " << sent_packets ;
         }
     }
 }
