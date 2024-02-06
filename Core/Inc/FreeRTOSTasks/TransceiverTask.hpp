@@ -12,13 +12,14 @@ extern SPI_HandleTypeDef hspi4;
 
 class TransceiverTask : public Task {
 public:
-    constexpr static uint16_t MaxPacketLength = 256;
+    constexpr static uint16_t MaxPacketLength = 100;
     using PacketType = etl::array<uint8_t, MaxPacketLength>;
     static AT86RF215::At86rf215 transceiver;
+    uint8_t packet_id = 250;
     /**
      *  0 for TX, 1 for RX
      */
-    uint8_t txrx_bool = 0;
+    uint8_t txrx = 1;
     /**
      * Function to check the SPI functionality.
      * In fine working functionality, we get Part Number At86rf21.
