@@ -12,7 +12,7 @@ extern SPI_HandleTypeDef hspi4;
 
 class TransceiverTask : public Task {
 public:
-    constexpr static uint16_t MaxPacketLength = 100;
+    constexpr static uint16_t MaxPacketLength = 1024;
     using PacketType = etl::array<uint8_t, MaxPacketLength>;
     static AT86RF215::At86rf215 transceiver;
     uint8_t packet_id = 250;
@@ -81,7 +81,7 @@ public:
 private:
     AT86RF215::AT86RF215Configuration CustomConfig;
     constexpr static uint16_t DelayMs = 1;
-    constexpr static uint16_t TaskStackDepth = 2000;
+    constexpr static uint16_t TaskStackDepth = 3000;
     constexpr static uint32_t FrequencyUHF = 401000;
 
     // QueueHandle_t packetQueue;
