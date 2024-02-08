@@ -182,7 +182,7 @@ void TransceiverTask::execute() {
             high_length_byte = transceiver.spi_read_8(AT86RF215::BBC0_RXFLH,error);
             received_length = (high_length_byte << 8) | low_length_byte ;
 
-            if(transceiver.spi_read_8(AT86RF215::BBC0_FBRXS, error) == packet_id && received_length == MaxPacketLength)
+            if(transceiver.spi_read_8(AT86RF215::BBC0_FBRXS, error) == packet_id && received_length == MaxPacketLength){
                 ok_packets++;
                 LOG_DEBUG << "PACKET RECEPTION OK, " << ok_packets ;
             }
