@@ -173,7 +173,38 @@ void TransceiverTask::execute() {
     uint8_t low_length_byte = 0;
     uint8_t high_length_byte = 0;
     uint16_t received_length = 0;
+    uint32_t current_ticks, elapsed_time, initial_ticks, interval;
+    interval = 60000;
+    initial_ticks = HAL_GetTick();
     while(true) {
+        current_ticks = HAL_GetTick();
+        elapsed_time = current_ticks - initial_ticks ;
+        if(elapsed_time >= interval)
+        {
+            initial_ticks = current_ticks;
+            LOG_DEBUG << "Timer expired!" ;
+            if(txrx)
+            {
+                txrx = 0;
+                LOG_DEBUG << "TX MODE" ;
+                vTaskDelay(pdMS_TO_TICKS(10000));
+                transceiver.TransmitterFrameEnd_flag = true;
+                setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
+                transceiver.chip_reset(error);
+                transceiver.setup(error);
+                txAnalogFrontEnd();
+                txSRandTxFilter();
+                modulationConfig();
+            }
+            else{
+                txrx = 1;
+                transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
+                vTaskDelay(pdMS_TO_TICKS(10));
+                transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
+                if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
+                    LOG_DEBUG << " STATE = RX ";
+            }
+        }
         if(transceiverTask->txrx && transceiver.ReceiverFrameEnd_flag)
         {
             transceiver.ReceiverFrameEnd_flag = false;
