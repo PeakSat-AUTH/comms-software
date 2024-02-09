@@ -2,6 +2,8 @@
 
 using namespace AT86RF215;
 
+extern uint8_t button_flag;
+
 AT86RF215::At86rf215 TransceiverTask::transceiver = AT86RF215::At86rf215(&hspi4, AT86RF215::AT86RF215Configuration());
 
 uint8_t TransceiverTask::checkTheSPI() {
@@ -35,7 +37,7 @@ void TransceiverTask::setConfiguration(uint16_t pllFrequency09, uint8_t pllChann
     CustomConfig.baseBandEnable09 = true;
     CustomConfig.physicalLayerType09 = PhysicalLayerType::BB_MRFSK;
     CustomConfig. frameCheckSequenceType09 = FrameCheckSequenceType::FCS_32;
-    CustomConfig.txOutPower09 = 5;
+    CustomConfig.txOutPower09 = 0;
     transceiver.config = CustomConfig;
 }
 
@@ -173,27 +175,44 @@ void TransceiverTask::execute() {
     uint8_t low_length_byte = 0;
     uint8_t high_length_byte = 0;
     uint16_t received_length = 0;
-    uint32_t current_ticks, elapsed_time, initial_ticks, interval;
-    interval = 10000;
-    initial_ticks = HAL_GetTick();
+    uint8_t button_pressed_times = 0;
     while(true) {
-        current_ticks = HAL_GetTick();
-        elapsed_time = current_ticks - initial_ticks ;
-        if(elapsed_time >= interval)
+        if(button_flag)
         {
-            initial_ticks = current_ticks;
-            LOG_DEBUG << "Timer expired!" ;
-            if(txrx)
+            button_pressed_times++;
+            LOG_DEBUG << "button pressed" ;
+            button_flag = 0;
+            if(button_pressed_times == 3)
             {
-                txrx = 0;
-                LOG_DEBUG << "TX MODE" ;
-                transceiver.TransmitterFrameEnd_flag = true;
-                setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
-                transceiver.chip_reset(error);
-                transceiver.setup(error);
-                txAnalogFrontEnd();
-                txSRandTxFilter();
-                modulationConfig();
+                button_pressed_times = 0;
+                if(txrx)
+                {
+                    txrx = 0;
+                    LOG_DEBUG << "TX MODE" ;
+                    transceiver.TransmitterFrameEnd_flag = true;
+                    setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
+                    transceiver.chip_reset(error);
+                    transceiver.setup(error);
+                    txAnalogFrontEnd();
+                    txSRandTxFilter();
+                    modulationConfig();
+                }
+                else{
+                    txrx = 1;
+                    setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
+                    transceiver.chip_reset(error);
+                    transceiver.setup(error);
+                    txAnalogFrontEnd();
+                    txSRandTxFilter();
+                    modulationConfig();
+                    receiverConfig(true);
+                    transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
+                    vTaskDelay(pdMS_TO_TICKS(10));
+                    transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
+                    if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
+                        LOG_DEBUG << " STATE = RX ";
+
+                }
             }
         }
         if(transceiverTask->txrx && transceiver.ReceiverFrameEnd_flag)
@@ -227,23 +246,6 @@ void TransceiverTask::execute() {
             transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
             transceiver.TransmitterFrameEnd_flag = false;
             LOG_DEBUG << "PACKET IS SENT " << sent_packets ;
-            if(sent_packets == 2)
-            {
-                sent_packets = 0;
-                setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
-                transceiver.chip_reset(error);
-                transceiver.setup(error);
-                txAnalogFrontEnd();
-                txSRandTxFilter();
-                modulationConfig();
-                receiverConfig(true);
-                transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
-                vTaskDelay(pdMS_TO_TICKS(10));
-                transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
-                if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
-                    LOG_DEBUG << " STATE = RX ";
-                txrx = 1;
-            }
         }
     }
 }

@@ -19,6 +19,8 @@
 #include "TimeBasedSchedulingTask.hpp"
 #include "TransceiverTask.hpp"
 
+uint8_t button_flag = 0;
+
 extern "C" void main_cpp(){
     uartGatekeeperTask.emplace();
     //mcuTemperatureTask.emplace();
@@ -109,8 +111,14 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
 /**
  * @brief This function handles EXTI line[15:10] interrupts.
  */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if(GPIO_Pin == USER_Btn_Pin)
+        button_flag = 1;
+}
 
 extern "C" [[maybe_unused]] void EXTI15_10_IRQHandler(void) {
+    HAL_GPIO_EXTI_IRQHandler(USER_Btn_Pin);
     HAL_GPIO_EXTI_IRQHandler(RF_IRQ_Pin);
     transceiverTask->transceiver.handle_irq();
 }
