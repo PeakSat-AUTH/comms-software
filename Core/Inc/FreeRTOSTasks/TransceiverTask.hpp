@@ -12,6 +12,13 @@ extern SPI_HandleTypeDef hspi4;
 
 class TransceiverTask : public Task {
 public:
+
+    typedef enum {
+        TX,
+        RX
+    } rfModes;
+
+
     constexpr static uint16_t MaxPacketLength = 1024;
     using PacketType = etl::array<uint8_t, MaxPacketLength>;
     static AT86RF215::At86rf215 transceiver;
@@ -65,6 +72,9 @@ public:
 
     void txAnalogFrontEnd();
 
+    void setRFmode(uint8_t mode);
+
+    void init_transceiver();
 
 
     TransceiverTask() : Task("Transceiver signal transmission") {
@@ -83,8 +93,6 @@ private:
     constexpr static uint16_t DelayMs = 1;
     constexpr static uint16_t TaskStackDepth = 3000;
     constexpr static uint32_t FrequencyUHF = 401000;
-
-    // QueueHandle_t packetQueue;
     AT86RF215::Error error;
     StackType_t taskStack[TaskStackDepth];
 };
