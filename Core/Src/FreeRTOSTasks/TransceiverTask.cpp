@@ -2,8 +2,6 @@
 
 using namespace AT86RF215;
 
-extern uint8_t button_flag;
-
 AT86RF215::At86rf215 TransceiverTask::transceiver = AT86RF215::At86rf215(&hspi4, AT86RF215::AT86RF215Configuration());
 
 uint8_t TransceiverTask::checkTheSPI() {
@@ -129,10 +127,30 @@ void TransceiverTask::modulationConfig(){
     directModConfigAndPreEmphasisFilter(true,false, false);
 }
 
-void TransceiverTask::execute() {
-    while (checkTheSPI() != 0){
+void TransceiverTask::execute(){
+
+//    HAL_GPIO_WritePin(P5V_RF_EN_GPIO_Port, P5V_RF_EN_Pin, GPIO_PIN_SET);
+    LOG_DEBUG << "RF 5V ENABLED " ;
+    vTaskDelay(pdMS_TO_TICKS(1000));
+
+//    HAL_GPIO_WritePin(RF_RST_GPIO_Port, RF_RST_Pin, GPIO_PIN_SET);
+    LOG_DEBUG << "RF RESET ENABLED " ;
+    while (checkTheSPI() != 0) {
         vTaskDelay(10);
     };
+    // RECEIVE PINS //
+    // ENABLE THE 5V POWER SUPPLY
+
+    // ENABLE THE RX SWITCH
+//    HAL_GPIO_WritePin(EN_RX_UHF_GPIO_Port, EN_RX_UHF_Pin, GPIO_PIN_RESET);
+    LOG_DEBUG << "RX SWITCH ENABLED " ;
+    vTaskDelay(pdMS_TO_TICKS(1000));
+
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    // TRANSMIT PINS //
+
+
+
     uint8_t reg = transceiver.spi_read_8(AT86RF215::BBC0_PC, error);
     // ENABLE TXSFCS (FCS autonomously calculated)
     transceiver.spi_write_8(AT86RF215::BBC0_PC, reg | (1 << 4), error);
@@ -142,11 +160,9 @@ void TransceiverTask::execute() {
     // DISABLE THE INTERLEAVING
     transceiver.spi_write_8(AT86RF215::BBC0_PC, reg & 0, error);
 
-//    transceiver.spi_write_8(AT86RF215::BBC0_FSKC1, 192, error);
-//    transceiver.spi_write_8(AT86RF215::BBC0_FSKC2, 81, error);
-//    transceiver.spi_write_8(AT86RF215::BBC0_FSKC3, 15, error);
-//    transceiver.spi_write_8(AT86RF215::BBC0_FSKC4, 122, error);
-
+//    uint8_t temp = transceiver.spi_read_8(RF09_AUXS, error);
+//    transceiver.spi_write_8(RF09_AUXS, temp | (1 << 6), error );
+//    transceiver.spi_write_8(RF09_AUXS, temp | (0 << 5), error );
 
     setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
     transceiver.chip_reset(error);
@@ -159,46 +175,35 @@ void TransceiverTask::execute() {
     uint16_t currentPacketLength = MaxPacketLength;
     PacketType packet = createRandomPacket(MaxPacketLength);
 
-
-    if(transceiverTask->txrx){
-        transceiver.set_state(AT86RF215::RF09, State::RF_TXPREP, error);
-        vTaskDelay(pdMS_TO_TICKS(10));
-        transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
-        if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
-            LOG_DEBUG << " STATE = RX ";
-    }
-    else{
-        transceiver.TransmitterFrameEnd_flag = true;
-    }
-
-    uint32_t ok_packets = 0, wrong_packets = 0, sent_packets = 0;
-    uint8_t low_length_byte = 0;
-    uint8_t high_length_byte = 0;
+    uint8_t low_length_byte = 0, high_length_byte = 0;
     uint16_t received_length = 0;
-    uint8_t button_pressed_times = 0;
+    uint32_t ok_packets = 0, wrong_packets = 0, sent_packets = 0;
+    uint32_t current_ticks, elapsed_time, initial_ticks;
+
+    const uint32_t idle_interval = 5000; // 58 seconds
+    const uint32_t rx_interval = 1000;    // 1 second
+    const uint32_t tx_interval = 1000;    // 1 second
+
+    TransceiverState transceiver_state = IDLE;
+    txrx = -1;
+    initial_ticks = HAL_GetTick();
     while(true) {
-        if(button_flag)
+        current_ticks = HAL_GetTick();
+        elapsed_time = current_ticks - initial_ticks ;
+        switch(transceiver_state)
         {
-            button_pressed_times++;
-            LOG_DEBUG << "button pressed" ;
-            button_flag = 0;
-            if(button_pressed_times == 3)
-            {
-                button_pressed_times = 0;
-                if(txrx)
+            case IDLE:
+                if(elapsed_time >= idle_interval)
                 {
-                    txrx = 0;
-                    LOG_DEBUG << "TX MODE" ;
-                    transceiver.TransmitterFrameEnd_flag = true;
-                    setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
-                    transceiver.chip_reset(error);
-                    transceiver.setup(error);
-                    txAnalogFrontEnd();
-                    txSRandTxFilter();
-                    modulationConfig();
-                }
-                else{
                     txrx = 1;
+                    transceiver_state = RX;
+                    initial_ticks = current_ticks;
+                    LOG_DEBUG << "Switching to TX mode";
+                    // ENABLE THE RX AMP
+                    //    HAL_GPIO_WritePin(EN_UHF_AMP_RX_GPIO_Port, EN_UHF_AMP_RX_Pin, GPIO_PIN_SET);
+//            LOG_DEBUG << "RX AMP ENABLED " ;
+                    // DISABLE THE TX AMP
+//          HAL_GPIO_WritePin(EN_PA_UHF_GPIO_Port, EN_PA_UHF_Pin, GPIO_PIN_SET);
                     setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
                     transceiver.chip_reset(error);
                     transceiver.setup(error);
@@ -211,11 +216,38 @@ void TransceiverTask::execute() {
                     transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
                     if (transceiver.get_state(AT86RF215::RF09, error) == (AT86RF215::State::RF_RX))
                         LOG_DEBUG << " STATE = RX ";
-
                 }
-            }
+                break;
+            case RX:
+                if(elapsed_time >= rx_interval) {
+                    txrx = 0;
+                    transceiver_state = TX;
+                    initial_ticks = current_ticks;
+                    LOG_DEBUG << "Switching to TX mode";
+                    // DISABLE THE RX AMP
+                    //    HAL_GPIO_WritePin(EN_UHF_AMP_RX_GPIO_Port, EN_UHF_AMP_RX_Pin, GPIO_PIN_RESET);
+                    // ENABLE THE TX AMP
+//                HAL_GPIO_WritePin(EN_PA_UHF_GPIO_Port, EN_PA_UHF_Pin, GPIO_PIN_RESET);
+                    transceiver.TransmitterFrameEnd_flag = true;
+                    setConfiguration(calculatePllChannelFrequency09(FrequencyUHF), calculatePllChannelNumber09(FrequencyUHF));
+                    transceiver.chip_reset(error);
+                    transceiver.setup(error);
+                    txAnalogFrontEnd();
+                    txSRandTxFilter();
+                    modulationConfig();
+                }
+                break;
+            case TX:
+                if(elapsed_time >= tx_interval)
+                {
+                    txrx = -1;
+                    transceiver_state = IDLE;
+                    initial_ticks = current_ticks;
+                    LOG_DEBUG << "Switching to IDLE mode";
+                }
+                break;
         }
-        if(transceiverTask->txrx && transceiver.ReceiverFrameEnd_flag)
+        if((transceiverTask->txrx == 1) && transceiver.ReceiverFrameEnd_flag)
         {
             transceiver.ReceiverFrameEnd_flag = false;
             // Filtering the received packets //
@@ -238,11 +270,11 @@ void TransceiverTask::execute() {
             vTaskDelay(pdMS_TO_TICKS(10));
             transceiver.set_state(AT86RF215::RF09, State::RF_RX, error);
         }
-        if(transceiverTask->txrx == false && transceiver.TransmitterFrameEnd_flag)
+        if(transceiverTask->txrx == 0 && transceiver.TransmitterFrameEnd_flag)
         {
             sent_packets++;
             transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
-            vTaskDelay(pdMS_TO_TICKS(200));
+//            vTaskDelay(pdMS_TO_TICKS(200));
             transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
             transceiver.TransmitterFrameEnd_flag = false;
             LOG_DEBUG << "PACKET IS SENT " << sent_packets ;
