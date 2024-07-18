@@ -149,8 +149,6 @@ void TransceiverTask::execute(){
     vTaskDelay(pdMS_TO_TICKS(1000));
     // TRANSMIT PINS //
 
-
-
     uint8_t reg = transceiver.spi_read_8(AT86RF215::BBC0_PC, error);
     // ENABLE TXSFCS (FCS autonomously calculated)
     transceiver.spi_write_8(AT86RF215::BBC0_PC, reg | (1 << 4), error);
@@ -180,7 +178,7 @@ void TransceiverTask::execute(){
     uint32_t ok_packets = 0, wrong_packets = 0, sent_packets = 0;
     uint32_t current_ticks, elapsed_time, initial_ticks;
 
-    const uint32_t idle_interval = 5000; // 58 seconds
+    const uint32_t idle_interval = 58000; // 58 seconds
     const uint32_t rx_interval = 1000;    // 1 second
     const uint32_t tx_interval = 1000;    // 1 second
 
@@ -274,7 +272,6 @@ void TransceiverTask::execute(){
         {
             sent_packets++;
             transceiver.transmitBasebandPacketsTx(AT86RF215::RF09, packet.data(), currentPacketLength, error);
-//            vTaskDelay(pdMS_TO_TICKS(200));
             transceiver.set_state(AT86RF215::RF09, State::RF_TX, error);
             transceiver.TransmitterFrameEnd_flag = false;
             LOG_DEBUG << "PACKET IS SENT " << sent_packets ;
