@@ -17,9 +17,9 @@ public:
     static AT86RF215::At86rf215 transceiver;
     uint8_t packet_id = 250;
     /**
-     *  0 for TX, 1 for RX
+     *  -1 for IDLE, 0 for TX, 1 for RX
      */
-    uint8_t txrx = -1;
+    int8_t txrx = -1;
 
     enum TransceiverState {
         IDLE,
